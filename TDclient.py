@@ -16,7 +16,7 @@ import datetime
 import cbor #read about it. 
 import random
 
-import networkx as nx 
+#import networkx as nx 
 #TODO: since networkX might not be accessible to all nodes and its not
 #a defult python module, later convert networkx to a simple dictionary. 
 # but for now, for the simplicity and better undersanding and better 
@@ -73,3 +73,4 @@ class flooder(threading.Thread):
                     dump_some()
         graspi.tprint("Flooder exiting")
 
+flooder().start()
