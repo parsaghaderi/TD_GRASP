@@ -23,6 +23,10 @@ import random
 # visualization, we prefer to use networkX since it provides lots of utility 
 #functions for handling graph related objects. 
 
+def pr(msg):
+    print("*******************")
+    print(msg)
+    print("*******************")
 
 ############################
 # STATES OF ASA
@@ -34,18 +38,21 @@ global Parent
 ############################
 # Registering ASA and Objects
 ############################
+global asa_handle
+err, handle = graspi.register_asa("TD_flood")
 
-err, asa_handle = graspi.register_asa("TD")
 if not err:
     print("ASA registered OK")
+    asa_handle = handle
 else:
     print("can't register ASA: "+ graspi.etext[err])
 
 topology = graspi.objective("topology")
 topology.neg = False
 topology.synch = True
+topology.value = 10 #sample value
 
-err = graspi.register_obj(asa_handle, topology)
+err = graspi.register_obj(asa_handle, topology, overlap=True)
 if not err:
     print("object registered correctly")
 else:
@@ -54,11 +61,14 @@ else:
 class flooder(threading.Thread):
     """Thread to flood EX1 repeatedly"""
     global keep_going
+    
     def __init__(self):
         threading.Thread.__init__(self, daemon=True)
 
     def run(self):
-        while keep_going:
+        pr("started flooding!")
+        print("flooding "+topology.name)
+        while True:
             time.sleep(60)
             obj1.value = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC from Briggs")
             err = graspi.flood(asa_handle, 59000, [graspi.tagged_objective(topology,None)])
@@ -71,6 +81,7 @@ class flooder(threading.Thread):
             else:
                 if graspi.grasp.test_mode:
                     dump_some()
-        graspi.tprint("Flooder exiting")
+            pr("exiting flooding")
+            graspi.tprint("Flooder exiting")
 
 flooder().start()
