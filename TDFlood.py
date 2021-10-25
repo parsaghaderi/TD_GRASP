@@ -19,7 +19,10 @@ import threading
 import datetime
 import cbor
 import random
-
+def pr(msg):
+    print("******************")
+    print(msg)
+    print("******************")
 ####################################
 # Flood EX1 repeatedly
 ####################################
@@ -31,7 +34,9 @@ class flooder(threading.Thread):
         threading.Thread.__init__(self, daemon=True)
 
     def run(self):
+        pr("in flooder")
         while keep_going:
+            pr("flooder running")
             time.sleep(60)
             obj1.value = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC from Briggs")
             err = graspi.flood(asa_handle, 59000, [graspi.tagged_objective(obj1,None)])
@@ -44,6 +49,7 @@ class flooder(threading.Thread):
             else:
                 if graspi.grasp.test_mode:
                     dump_some()
+        pr("floder exiting")
         graspi.tprint("Flooder exiting")
 
 
@@ -88,20 +94,20 @@ keep_going = True
 # Register ASA/objectives
 ####################################
 
-err,asa_handle = graspi.register_asa("Briggs")
+err,asa_handle = graspi.register_asa("TD")
 if not err:
     graspi.tprint("ASA Briggs registered OK")
 else:
     graspi.tprint("Cannot register ASA:", graspi.etext[err])
     keep_going = False
     
-obj1 = graspi.objective("EX1")
+obj1 = graspi.objective("map")
 obj1.loop_count = 4
 obj1.synch = True
 
 err = graspi.register_obj(asa_handle,obj1)
 if not err:
-    graspi.tprint("Objective EX1 registered OK")
+    graspi.tprint("Objective map registered OK")
 else:
     graspi.tprint("Cannot register objective:", graspi.etext[err])
     keep_going = False
