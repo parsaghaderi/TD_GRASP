@@ -1,43 +1,40 @@
-import time
-_old_API = False
-try:
-    import graspi
-except:
-    print("Cannot find the RFC API module graspi.py.")
-    print("Will run with only the basic grasp.py module.")
-    _old_API = True
-    try:
-        import grasp as graspi
-    except:
-        print("Cannot import grasp.py")
-        time.sleep(10)
-        exit()
-import threading
 import cbor
-import random
+import cbor2
+import grasp
+import time
 
-############################
-# Registering ASA and object
-############################
-err, asa_handle = graspi.register_asa("TD_Discovery")
+#utility function
+def pr(msg):
+    print("\n############################")
+    print("#" + msg)
+    print("############################\n")
+
+
+#register asa
+err, asa_handle = grasp.register_asa("flooder")
 if not err:
-    print("ASA registered OK")
+    pr("ASA registered ok")
 else:
-    print("can not register ASA: "+graspi.etext[err])
+    pr("can't register ASA")
 
-topology = graspi.objective("topology")
-topology.synch = True
-topology.neg = False
+#register objetive
+obj = grasp.objective("TD")
+obj.loop_count = 10
+obj.synch = True
 
-err = graspi.register_obj(asa_handle, topology, overlap=True)
+err = grasp.register_obj(asa_handle, obj)
 if not err:
-    print("Object registered OK!")
+    pr("objective registered ok")
 else:
-    print("cannot register object: "+graspi.etext[err])
+    pr("can't register objective")
+    exit()
 
-err, result = graspi.synchronize(asa_handle, topology, None, 5000)
+#try synchronize
+pr("synchronizing")
+err, result = grasp.synchronize(asa_handle, obj, None, 5000)
 if not err:
-    print("synchronized objective: "+result.value)
+    pr("synchronized objective")
+    pr(result.value)
 else:
-    print("can't synchronize objective: "+graspi.etext[err])
-    
+    pr("couldn't synchronize objective")
+    exit()
