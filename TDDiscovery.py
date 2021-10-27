@@ -28,7 +28,7 @@ if not err:
 else:
     pr("can't register objective")
     exit()
-
+time.sleep(30)
 #try synchronize
 pr("synchronizing")
 err, result = grasp.synchronize(asa_handle, obj, None, 5000)
