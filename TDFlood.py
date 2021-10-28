@@ -42,8 +42,8 @@ class flooder(threading.Thread):
             obj.value = {'49':['30', '53']}
             grasp.flood(asa_handle, 59000, grasp.tagged_objective(obj, None))#TODO: change to asa_handle and see what happens
             
-# flooder().start()
-# pr("Flooding obj1 forever")
+flooder().start()
+pr("Flooding obj1 forever")
 
 #listening for synchronization
 
