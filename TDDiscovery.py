@@ -36,5 +36,5 @@ if not err:
     pr("synchronized objective")
     pr(result.value)
 else:
-    pr("couldn't synchronize objective")
+    pr("couldn't synchronize objective" + grasp.etext[err])
     exit()

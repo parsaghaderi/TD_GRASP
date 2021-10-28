@@ -27,7 +27,7 @@ err = grasp.register_obj(asa_handle, obj)
 if not err:
     pr("objective registered ok")
 else:
-    pr("can't register objective")
+    pr("can't register objective"+grasp.etext[err])
     exit()
 
 
