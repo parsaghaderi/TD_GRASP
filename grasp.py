@@ -2456,7 +2456,7 @@ def stop_synchronize(asa_handle, obj):
 
 
 
-def flood(asa_handle, ttl, *tagged_obj):
+def flood(asa_handle, ttl, tagged_obj):
     """
 ##############################################################
 # flood(asa_handle, ttl, *tagged_obj)                               
