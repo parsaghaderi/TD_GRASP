@@ -534,7 +534,7 @@ while True:
     else:
         grasp.tprint("Synch failed EX1", grasp.etext[err])
     #and try it differently
-    err, results = grasp.get_flood(asa_nonce, obj1)
+    err, results = grasp.get_xflood(asa_nonce, obj1)
     if not err:
         for x in results:
             grasp.tprint("Flooded EX1 from", x.source.locator, "=", x.objective.value)

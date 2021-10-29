@@ -2510,8 +2510,8 @@ def flood(asa_handle, ttl, tagged_obj):
         if errorcode:
             return errorcode
 
-    if DULL or (tagged_obj[0].source and (tagged_obj[0].source.locator == _unspec_address)):
-        tagged_objs[0].objective.loop_count = 1 # force link-local loop count
+    if DULL or (tagged_obj[0].source and (tagged_obj[0].source == _unspec_address)):
+        tagged_obj[0].objective.loop_count = 1 # force link-local loop count
         _local_flood = True
     else:
         _local_flood = False
