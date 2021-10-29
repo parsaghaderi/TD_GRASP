@@ -345,7 +345,7 @@ else:
 err, result = grasp.synchronize(asa_nonce, obj2, None, 5000)
 
 if not err:
-    grasp.tprint("Synchronized EX2", nx.to_dict_of_lists(result))
+    grasp.tprint("Synchronized EX2", result.value)
 else:
     grasp.tprint("Synch failed EX2", grasp.etext[err])    
 
@@ -361,7 +361,7 @@ else:
 #repeat
 err, result = grasp.synchronize(asa_nonce, obj2, None, 5000)
 if not err:
-    grasp.tprint("Synchronized EX2", nx.to_dict_of_lists(result))
+    grasp.tprint("Synchronized EX2", result.value)
 else:
     grasp.tprint("Synch failed EX2", grasp.etext[err])  
     

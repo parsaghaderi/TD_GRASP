@@ -347,7 +347,7 @@ import networkx as nx
 map = nx.Graph()
 map.add_edge(49, 30)
 map.add_edge(40, 53)
-obj2.value = map
+obj2.value = nx.to_dict_of_lists(map)
 err = grasp.listen_synchronize(asa_nonce, obj2)
 grasp.tprint("Listening for synch requests for EX2", grasp.etext[err])
 
