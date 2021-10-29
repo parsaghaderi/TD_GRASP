@@ -307,15 +307,15 @@ if not err:
 else:
     exit()
 
-obj3 = grasp.objective("EX3")
-obj3.neg = True
-obj3.dry = True
+# obj3 = grasp.objective("EX3")
+# obj3.neg = True
+# obj3.dry = True
 
-err = grasp.register_obj(asa_nonce,obj3)
-if not err:
-    grasp.tprint("Objective EX3 registered OK")
-else:
-    exit()
+# err = grasp.register_obj(asa_nonce,obj3)
+# if not err:
+#     grasp.tprint("Objective EX3 registered OK")
+# else:
+#     exit()
 
 ####################################
 # Flood EX1 repeatedly
@@ -346,7 +346,7 @@ grasp.tprint("Flooding EX1 for ever")
 import networkx as nx
 map = nx.Graph()
 map.add_edge(49, 30)
-map.add_edge(40, 53)
+map.add_edge(49, 53)
 obj2.value = nx.to_dict_of_lists(map)
 err = grasp.listen_synchronize(asa_nonce, obj2)
 grasp.tprint("Listening for synch requests for EX2", grasp.etext[err])
@@ -376,126 +376,126 @@ def endit(snonce, r):
 # Thread to handle an EX3 negotiation
 ####################################
 
-class negotiator(threading.Thread):
-    """Thread to negotiate obj3 as master"""
-    def __init__(self, snonce, nobj):
-        threading.Thread.__init__(self)
-        self.snonce = snonce
-        self.nobj = nobj
+# class negotiator(threading.Thread):
+#     """Thread to negotiate obj3 as master"""
+#     def __init__(self, snonce, nobj):
+#         threading.Thread.__init__(self)
+#         self.snonce = snonce
+#         self.nobj = nobj
 
-    def run(self):
-        answer=self.nobj
-        snonce=self.snonce
+#     def run(self):
+#         answer=self.nobj
+#         snonce=self.snonce
         
-        try:
-            answer.value=cbor.loads(answer.value)
-            grasp.tprint("CBOR value decoded")
-            _cbor = True
-        except:
-            _cbor = False
-        grasp.ttprint("listened, answer",answer.name, answer.value)
-        grasp.tprint("Got request for", answer.value[0], answer.value[1])
-        if answer.dry:
-            grasp.tprint("Dry run")
-        result=True
-        reason=None       
+#         try:
+#             answer.value=cbor.loads(answer.value)
+#             grasp.tprint("CBOR value decoded")
+#             _cbor = True
+#         except:
+#             _cbor = False
+#         grasp.ttprint("listened, answer",answer.name, answer.value)
+#         grasp.tprint("Got request for", answer.value[0], answer.value[1])
+#         if answer.dry:
+#             grasp.tprint("Dry run")
+#         result=True
+#         reason=None       
         
-        if answer.value[0]!="NZD":
-            endit(snonce, "Invalid currency")
-        elif answer.value[1] > reserves/2:
-            #other end wants too much, we need to negotiate
-            proffer = int(reserves/2)
-            step = 1
-            concluded = False
-            grasp.tprint("Starting negotiation")
-            while not concluded:
-                #proffer some resource
-                grasp.tprint("Offering NZD",proffer)
-                answer.value[1] = proffer
-                if _cbor:
-                    answer.value=cbor.dumps(answer.value)
-                err,temp,answer = grasp.negotiate_step(asa_nonce, snonce, answer, 1000)
-                grasp.ttprint("Step", step, "gave:", err, temp, answer)
-                step += 1
-                if (not err) and temp==None:
-                    concluded = True
-                    grasp.tprint("Negotiation succeeded")                 
-                elif not err:
-                    try:
-                        answer.value=cbor.loads(answer.value)
-                        grasp.tprint("CBOR value decoded")
-                    except:
-                        pass
-                    grasp.tprint("Loop count", answer.loop_count,"request",answer.value[1])
-                    #maybe wait (for no particular reason)
-                    if _prng.randint(1,10)%2:                        
-                        err1 = grasp.negotiate_wait(asa_nonce, snonce, wt)
-                        grasp.tprint("Tried wait:", grasp.etext[err1])
-                        time.sleep(10) # if wt<10000 this tests anomaly handling by the peer
-                        grasp.tprint("Woke up")
-                    if proffer < 0.6*reserves:
-                        proffer += 10
-                        if proffer > answer.value[1]:
-                            proffer = answer.value[1]-1 #always be a little mean
-                    else:
-                        #we don't have enough resource, we will reject
-                        result=False
-                        #randomly choose English or Russian error message
-                        if reserves%2:
-                            reason="Insufficient funds"
-                        else:
-                            reason=u"Недостаточно средств"
-                        endit(snonce, reason)
-                        concluded = True
-                else:    
-                    #other end rejected or loop count exhausted
-                    concluded=True
-                    result=False
+#         if answer.value[0]!="NZD":
+#             endit(snonce, "Invalid currency")
+#         elif answer.value[1] > reserves/2:
+#             #other end wants too much, we need to negotiate
+#             proffer = int(reserves/2)
+#             step = 1
+#             concluded = False
+#             grasp.tprint("Starting negotiation")
+#             while not concluded:
+#                 #proffer some resource
+#                 grasp.tprint("Offering NZD",proffer)
+#                 answer.value[1] = proffer
+#                 if _cbor:
+#                     answer.value=cbor.dumps(answer.value)
+#                 err,temp,answer = grasp.negotiate_step(asa_nonce, snonce, answer, 1000)
+#                 grasp.ttprint("Step", step, "gave:", err, temp, answer)
+#                 step += 1
+#                 if (not err) and temp==None:
+#                     concluded = True
+#                     grasp.tprint("Negotiation succeeded")                 
+#                 elif not err:
+#                     try:
+#                         answer.value=cbor.loads(answer.value)
+#                         grasp.tprint("CBOR value decoded")
+#                     except:
+#                         pass
+#                     grasp.tprint("Loop count", answer.loop_count,"request",answer.value[1])
+#                     #maybe wait (for no particular reason)
+#                     if _prng.randint(1,10)%2:                        
+#                         err1 = grasp.negotiate_wait(asa_nonce, snonce, wt)
+#                         grasp.tprint("Tried wait:", grasp.etext[err1])
+#                         time.sleep(10) # if wt<10000 this tests anomaly handling by the peer
+#                         grasp.tprint("Woke up")
+#                     if proffer < 0.6*reserves:
+#                         proffer += 10
+#                         if proffer > answer.value[1]:
+#                             proffer = answer.value[1]-1 #always be a little mean
+#                     else:
+#                         #we don't have enough resource, we will reject
+#                         result=False
+#                         #randomly choose English or Russian error message
+#                         if reserves%2:
+#                             reason="Insufficient funds"
+#                         else:
+#                             reason=u"Недостаточно средств"
+#                         endit(snonce, reason)
+#                         concluded = True
+#                 else:    
+#                     #other end rejected or loop count exhausted
+#                     concluded=True
+#                     result=False
                     
-                    if err==grasp.errors.loopExhausted:
-                        # we need to signal the end
-                        endit(snonce, grasp.etext[err])
-                    elif err==grasp.errors.declined and answer!="":
-                        grasp.tprint("Declined:",answer)
-                    else:
-                        grasp.tprint("Failed:",grasp.etext[err])
+#                     if err==grasp.errors.loopExhausted:
+#                         # we need to signal the end
+#                         endit(snonce, grasp.etext[err])
+#                     elif err==grasp.errors.declined and answer!="":
+#                         grasp.tprint("Declined:",answer)
+#                     else:
+#                         grasp.tprint("Failed:",grasp.etext[err])
                         
-                #end of negotiation loop
-                pass
-            #out of negotiation loop
-        else: #we can accept the initially requested value
-            grasp.tprint("Request accepted")
-            err = grasp.end_negotiate(asa_nonce, snonce, True)
-            if err:
-                grasp.tprint("end_negotiate error:",grasp.etext[err])
-        #end of a negotiating session
+#                 #end of negotiation loop
+#                 pass
+#             #out of negotiation loop
+#         else: #we can accept the initially requested value
+#             grasp.tprint("Request accepted")
+#             err = grasp.end_negotiate(asa_nonce, snonce, True)
+#             if err:
+#                 grasp.tprint("end_negotiate error:",grasp.etext[err])
+#         #end of a negotiating session
 
 
-###################################
-# Negotiate EX3 as listener for ever
-###################################
+# ###################################
+# # Negotiate EX3 as listener for ever
+# ###################################
 
-obj3.value = ["NZD",0]
-grasp.tprint("Ready to negotiate EX3 as listener")
-grasp.ttprint("(Note: Cyrillic test case fails in a Windows console window, OK in IDLE window.)")
+# obj3.value = ["NZD",0]
+# grasp.tprint("Ready to negotiate EX3 as listener")
+# grasp.ttprint("(Note: Cyrillic test case fails in a Windows console window, OK in IDLE window.)")
 
-grasp.init_bubble_text("Briggs (old API)")
+# grasp.init_bubble_text("Briggs (old API)")
 
-while True:
-    #start of a negotiating session
+# while True:
+#     #start of a negotiating session
 
-    #create a random amount of resource and a random waiting time
-    reserves = _prng.randint(100, 400)
-    wt = _prng.randint(9000, 20000)
-    grasp.tprint("Reserves: $",reserves, "Wait:",wt,"ms")
+#     #create a random amount of resource and a random waiting time
+#     reserves = _prng.randint(100, 400)
+#     wt = _prng.randint(9000, 20000)
+#     grasp.tprint("Reserves: $",reserves, "Wait:",wt,"ms")
     
-    #attempt to listen for negotiation
-    err, snonce, answer = grasp.listen_negotiate(asa_nonce, obj3)
-    if err:
-        grasp.tprint("listen_negotiate error:",grasp.etext[err])
-        time.sleep(5) #to calm things if there's a looping error
-    else:
-        #got a new negotiation request; kick off a separate negotiator
-        #so that multiple requests can be handled in parallel
-        negotiator(snonce, answer).start()
+#     #attempt to listen for negotiation
+#     err, snonce, answer = grasp.listen_negotiate(asa_nonce, obj3)
+#     if err:
+#         grasp.tprint("listen_negotiate error:",grasp.etext[err])
+#         time.sleep(5) #to calm things if there's a looping error
+#     else:
+#         #got a new negotiation request; kick off a separate negotiator
+#         #so that multiple requests can be handled in parallel
+#         negotiator(snonce, answer).start()
 
