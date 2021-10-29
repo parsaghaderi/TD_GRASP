@@ -330,7 +330,7 @@ class flooder(threading.Thread):
         while True:
             time.sleep(60)
             obj1.value = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC from Briggs")
-            err = grasp.flood(asa_nonce, 59000, [grasp.tagged_objective(obj1,None)])
+            err = grasp.flood(asa_nonce, 59000, [grasp.tagged_objective(obj1,asa_nonce)])
             if err:
                 grasp.tprint("Flood failure:",grasp.etext[err])
             time.sleep(5)
