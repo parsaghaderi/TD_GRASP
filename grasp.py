@@ -2521,18 +2521,18 @@ def flood(asa_handle, ttl, tagged_obj):
     for x in tagged_objs:
         if x.source == None:
             _l = [] # empty option
-        elif x.source.locator == None:
+        elif x.source == None:
             _l = [] # empty option            
         elif x.source.is_ipaddress:
             #ttprint("Tagged obj source",x.source.locator, tname(x.source.locator))
-            if tname(x.source.locator) == 'IPv6Address':  #fixed 20200408
-                _l = [O_IPv6_LOCATOR, x.source.locator.packed, x.source.protocol, x.source.port]
+            if tname(x.source) == 'IPv6Address':  #fixed 20200408
+                _l = [O_IPv6_LOCATOR, x.source.packed, x.source.protocol, x.source.port]
             else:
-                _l = [O_IPv4_LOCATOR, x.source.locator.packed, x.source.protocol, x.source.port]
+                _l = [O_IPv4_LOCATOR, x.source.packed, x.source.protocol, x.source.port]
         elif x.source.is_fqdn:	
-            _l = [O_FQDN_LOCATOR, x.source.locator, x.source.protocol, x.source.port]
+            _l = [O_FQDN_LOCATOR, x.source, x.source.protocol, x.source.port]
         elif x.source.is_uri:
-            _l = [O_URI_LOCATOR, x.source.locator, x.source.protocol, x.source.port]
+            _l = [O_URI_LOCATOR, x.source, x.source.protocol, x.source.port]
         else:
             return errors.invalidLoc 
         _floodl.append([x.objective, _l])
@@ -4034,7 +4034,7 @@ class _mchandler(threading.Thread):
                             #zap expired objectives as we go
                             for j in range(len(_flood_cache)):
                                 if _flood_cache[j].objective.name == obj.name and \
-                                   _flood_cache[j].source.locator == _loc.locator and \
+                                   _flood_cache[j].source == _loc.locator and \
                                    _flood_cache[j].source.port == _loc.port:
                                     #found it, zap old version
                                     _flood_cache[j] = None
@@ -4345,7 +4345,7 @@ structures for interactive debugging. Not thread-safe.
     print("\nFlood cache contents:\n--------------------")            
     for x in _flood_cache:
         print(x.objective.name,"count:",x.objective.loop_count,"value:", x.objective.value,
-              "source:",x.source.locator, x.source.protocol, x.source.port, x.source.expire)
+              "source:",x.source, x.source.protocol, x.source.port, x.source.expire)
     if not partial:
         print("\nSession ID cache contents:\n-------------------------")         
         for x in _session_id_cache:
