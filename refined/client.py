@@ -106,8 +106,11 @@ while keep_going:
         mprint("discovery failed")
         mprint("exiting now")
         exit()
-    
-    mprint("discovered locator "+ ll[0].locator)
+    print("###############################")
+    print("discovered locator \n\t")
+    print(ll[0].locator)
+    print("###############################")
+
     if _cbor:
         map2.value=cbor.dumps(map2.value)
     if _old_API:
