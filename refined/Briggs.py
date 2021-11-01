@@ -32,7 +32,6 @@ class flooder(threading.Thread):
 
     def run(self):
         while keep_going:
-            time.sleep(60)
             obj1.value = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC from Briggs")
             err = graspi.flood(asa_handle, 59000, [graspi.tagged_objective(obj1,None)])
             if err:
