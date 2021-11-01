@@ -81,7 +81,8 @@ class flooder(threading.Thread):
         self.tagged = tagged
         threading.Thread.__init__(self, daemon=True)
     def run(self):
-        while keep_going:
+        while True:
+            mprint("flooding map")
             err = graspi.flood(self.asa, 59000, [self.tagged])
             time.sleep(5)
         mprint("exiting flooder")
