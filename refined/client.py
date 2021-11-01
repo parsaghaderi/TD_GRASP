@@ -54,7 +54,7 @@ else:
     mprint("Cannot register ASA:\n\t" + graspi.etext[err])
     mprint("exiting now.")
     exit()
-graph = nx.Graph()
+
 map = graspi.objective("map")
 map.neg = False
 map.synch = True
@@ -68,10 +68,10 @@ if keep_going:
     mprint("synchronizing map objective")
     err, result = graspi.synchronize(asa_handle, map, None, 5000)
     if not err:
-        graph = nx.from_dict_of_lists(result.value)
+
         print("#########################\n")
         print("map synchronized\n\t")
-        print(nx.to_dict_of_lists(graph))
+        print(result.value)
         print("#########################\n")
     else:
         mprint("cannot synchronize value\n\t"+graspi.etext[err])

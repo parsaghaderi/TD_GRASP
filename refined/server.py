@@ -57,14 +57,12 @@ else:
     mprint("exiting now.")
     exit()
 
-graph = nx.Graph()
-graph.add_edge(49, 53)
-graph.add_edge(49, 30)
+
 map = graspi.objective("map")
 map.neg = False
 map.synch = True
 map.loop_count = 10 #TODO change to 4
-map.value = nx.to_dict_of_lists(graph)
+map.value = {'49':['53', '30']}
 err = graspi.register_obj(asa_handle, map)
 if not err:
     mprint("Objective registered successfully")
