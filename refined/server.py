@@ -64,7 +64,7 @@ map = graspi.objective("map")
 map.neg = False
 map.synch = True
 map.loop_count = 10 #TODO change to 4
-map.value = graph
+map.value = nx.to_dict_of_lists(graph)
 err = graspi.register_obj(asa_handle, map)
 if not err:
     mprint("Objective registered successfully")

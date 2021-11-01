@@ -68,7 +68,7 @@ if keep_going:
     mprint("synchronizing map objective")
     err, result = graspi.synchronize(asa_handle, map, None, 5000)
     if not err:
-        graph = result.value
+        graph = nx.from_dict_of_lists(result.value)
         print("#########################\n")
         print("map synchronized\n\t")
         print(nx.to_dict_of_lists(graph))
