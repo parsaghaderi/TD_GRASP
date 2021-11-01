@@ -78,7 +78,7 @@ else:
     exit()
 
 #creating tagged objective
-graspi.tagged_objective(map, asa_handle)
+tagged_map = graspi.tagged_objective(map, asa_handle)
 
 #pass a tagged objective
 class flooder(threading.Thread):
@@ -91,3 +91,5 @@ class flooder(threading.Thread):
             err = graspi.flood(self.asa, 59000, [self.tagged])
             time.sleep(5)
         mprint("exiting flooder")
+
+flooder(tagged_map).start()
