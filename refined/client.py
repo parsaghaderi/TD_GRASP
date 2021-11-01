@@ -56,6 +56,7 @@ except:
 ###############################
 #registering objective and ASA
 ###############################
+mprint("registering asa and objective")
 err, asa_handle = graspi.register_asa("TD_client")
 if not err:
     mprint("ASA registered successfully")
