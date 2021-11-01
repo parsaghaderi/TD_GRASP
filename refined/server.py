@@ -88,4 +88,5 @@ class flooder(threading.Thread):
             err = graspi.flood(self.asa, 59000, [graspi.tagged_objective(self.obj, None)])
         mprint("exiting flooder")
 
+
 flooder(tagged_map).start()
