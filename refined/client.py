@@ -117,7 +117,7 @@ while keep_going:
         err, nhandle, answer, reason = graspi.request_negotiate(asa_handle, map2, ll[0], None)
     
     if err:
-        if err==graspi.errors.declined and reason!=""
+        if err==graspi.errors.declined and reason!="":
             _e = reason
         else:
             _e = graspi.etext[err]
