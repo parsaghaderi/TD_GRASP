@@ -64,19 +64,22 @@ map.loop_count = 10 #TODO change to 4
 #synchronizing map
 #############################
 
-if keep_going:
-    mprint("synchronizing map objective")
-    err, result = graspi.synchronize(asa_handle, map, None, 5000)
-    if not err:
+while True:
+    if keep_going:
+        mprint("synchronizing map objective")
+        err, result = graspi.synchronize(asa_handle, map, None, 5000)
+        if not err:
 
-        print("#########################\n")
-        print("map synchronized\n\t")
-        print(result.value)
-        print("#########################\n")
-    else:
-        mprint("cannot synchronize value\n\t"+graspi.etext[err])
-        mprint("exiting now")
-        exit()
+            print("#########################\n")
+            print("map synchronized\n\t")
+            print(result.value)
+            print("#########################\n")
+            break
+        else:
+            mprint("cannot synchronize value\n\t"+graspi.etext[err])
+            mprint("exiting now")
+            exit()
+    time.sleep(1)
 
 ################################
 # negotiation
