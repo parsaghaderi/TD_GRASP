@@ -89,7 +89,7 @@ map2.neg = True
 map2.synch = False
 map2.loop_count = 10
 map2.value = {'53':['49', '57']}
-err, map2 = graspi.register_obj(asa_handle, map2)
+err = graspi.register_obj(asa_handle, map2)
 if not err:
     mprint("object registered successfully")
 else:
