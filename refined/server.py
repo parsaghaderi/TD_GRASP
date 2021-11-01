@@ -79,6 +79,7 @@ class flooder(threading.Thread):
         self.obj = tagged.objective
         self.asa = tagged.source
         self.tagged = tagged
+        threading.Thread.__init__(self, daemon=True)
     def run(self):
         while keep_going:
             err = graspi.flood(self.asa, 59000, [self.tagged])
