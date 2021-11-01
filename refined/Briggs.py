@@ -28,7 +28,7 @@ class flooder(threading.Thread):
     """Thread to flood EX1 repeatedly"""
     global keep_going
     def __init__(self):
-        threading.Thread.__init__(self)
+        threading.Thread.__init__(self, daemon=True)
 
     def run(self):
         while keep_going:

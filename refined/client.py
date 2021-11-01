@@ -77,3 +77,7 @@ if keep_going:
         mprint("cannot synchronize value\n\t"+graspi.etext[err])
         mprint("exiting now")
         exit()
+
+################################
+# negotiation
+################################
