@@ -68,7 +68,10 @@ if keep_going:
     mprint("synchronizing map objective")
     err, result = graspi.synchronize(asa_handle, map, None, 5000)
     if not err:
-        mprint("map synchronized; map value: " + result.value)
+        print("#########################\n")
+        print("map synchronized\n\t")
+        print(result.value)
+        print("#########################\n")
     else:
         mprint("cannot synchronize value\n\t"+graspi.etext[err])
         mprint("exiting now")
