@@ -76,10 +76,11 @@ tagged_map = graspi.tagged_objective(map, asa_handle)
 #pass a tagged objective
 class flooder(threading.Thread):
     def __init__(self, tagged):
+        threading.Thread.__init__(self)
         self.obj = tagged.objective
         self.asa = tagged.source
         self.tagged = tagged
-        threading.Thread.__init__(self, daemon=True)
+        
     def run(self):
         while True:
             mprint("flooding map")
