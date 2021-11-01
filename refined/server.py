@@ -1,6 +1,5 @@
 import time
 
-from Briggs import dump_some
 _old_API = False
 try:
     import graspi
