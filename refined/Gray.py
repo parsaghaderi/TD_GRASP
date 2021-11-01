@@ -99,7 +99,7 @@ if keep_going:
 
     err, result = graspi.synchronize(asa_handle, obj1, None, 5000)
     if not err:
-        graspi.tprint("Synchronized EX1", result.value)
+        graspi.tprint("Synchronized ********* EX1", result.value)
     else:
         graspi.tprint("Synch failed EX1", graspi.etext[err])
 
