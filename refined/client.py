@@ -84,3 +84,92 @@ while True:
 ################################
 # negotiation
 ################################
+map2 = graspi.objective("map2")
+map2.neg = True
+map2.synch = False
+map2.loop_count = 10
+map2.value = {'53':['49', '57']}
+err, map2 = graspi.register_obj(asa_handle, map2)
+if not err:
+    mprint("object registered successfully")
+else:
+    mprint("cannot register objective "+graspi.etext[err])
+    mprint("exiting now")
+    exit()
+failcnt =0
+_cbor = True
+mprint("start negotiation")
+while keep_going:
+    _, ll = graspi.discover(asa_handle, map2, 10000, flush=True)
+    
+    if ll ==[]:
+        mprint("discovery failed")
+        mprint("exiting now")
+        exit()
+    
+    mprint("discovered locator "+ ll[0].locator)
+    if _cbor:
+        map2.value=cbor.dumps(map2.value)
+    if _old_API:
+        err, nhandle, answer = graspi.req_negotiate(asa_handle, map2, ll[0], None)
+        reason = answer
+    else:
+        err, nhandle, answer, reason = graspi.request_negotiate(asa_handle, map2, ll[0], None)
+    
+    if err:
+        if err==graspi.errors.declined and reason!=""
+            _e = reason
+        else:
+            _e = graspi.etext[err]
+        mprint("request_negotiate error: "+ _e)
+        failcnt+=1
+        mprint("fail count: "+ failcnt)
+        time.sleep(5)
+    elif (not err) and nhandle:
+        mprint("requested {}, session_handle {}".format(answer, nhandle))
+        if _cbor:
+            answer.value = cbor.loads(answer.value)
+
+        mprint("peer offered " + answer.value)
+        map2.value.update(answer.value)
+
+        mprint("updated value for map2 "+map2.value)
+        answer.value = cbor.dumps(map2.value)
+        _r = graspi.negotiate_step(asa_handle, nhandle, answer, 1000)
+        if _old_API:
+            err, temp, answer = _r
+            reason = answer
+        else:
+            err, temp, answer, reason = _r
+        if _cbor and (not err):
+            try:
+                answer.value = cbor.loads(answer.value)
+            except:
+                pass
+        if (not err) and temp == None:
+            mprint("negotiation succeeded")
+            mprint("updated value of answer: "+answer.value)
+            map2.value = answer.value
+        else:
+            mprint("negotiation error "+graspi.etext[err])
+            mprint("exiting now")
+            exit()
+        err = graspi.end_negotiate(asa_handle, nhandle, True)
+        if not err:
+            print("##############################################")
+            print("negotiation ended successfully with answer\n\t")
+            print(map2.value)
+            print("##############################################\n")
+        else:
+            mprint("end negotiation error: "+graspi.etext[err])
+        
+    else:
+        err = graspi.end_negotiate(asa_handle, nhandle, True)
+        if not err:
+            print("##############################################")
+            print("negotiation ended successfully with answer\n\t")
+            print(map2.value)
+            print("##############################################\n")
+        else:
+            mprint("end negotiation error: "+graspi.etext[err])
+
