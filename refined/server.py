@@ -116,7 +116,7 @@ class negotiator(threading.Thread):
     #handler and obj for this asa
     #nhandler and nobj for negotiator asa and obj
     def __init__(self,handler, obj, nhandler, nobj):
-        threading.Thread.__init__(self, deamon = True)
+        threading.Thread.__init__(self, daemon = True)
         self.handler = handler
         self.obj = obj
         self.nhandler = nhandler
