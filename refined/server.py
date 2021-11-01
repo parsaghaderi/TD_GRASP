@@ -43,16 +43,7 @@ try:
 except:
     #not running under ASA loader
     graspi.tprint("========================")
-    graspi.tprint("ASA Gray is starting up.")
-    graspi.tprint("========================")
-    graspi.tprint("Gray is a demonstration Autonomic Service Agent.")
-    graspi.tprint("It tests out several basic features of GRASP, and")
-    graspi.tprint("then runs indefinitely as one side of a negotiation.")
-    graspi.tprint("It acts as a client, asking for money.")
-    graspi.tprint("The sum requested is random for each negotiation,")
-    graspi.tprint("and some GRASP features are used at random.")
-    graspi.tprint("On Windows or Linux, there should be a nice window")
-    graspi.tprint("that displays the negotiation process.")
+    graspi.tprint("ASA server is starting up.")
     graspi.tprint("========================")
 
 ###############################
