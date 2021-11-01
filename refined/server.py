@@ -143,7 +143,7 @@ class negotiator(threading.Thread):
             step = 1
             mprint("in _{}_ step of negotiation".format(step))
             print("*************************")
-            answer.value = cbor.loads(answer)
+            answer.value = cbor.loads(answer.value)
             print(answer.value)
             print("*************************")
             self.obj.value.update(answer.value) 
