@@ -126,7 +126,11 @@ while keep_going:
             _e = graspi.etext[err]
         mprint("request_negotiate error: "+ _e)
         failcnt+=1
-        mprint("fail count: "+ failcnt)
+        print("########################")
+        print("fail count:\n\t")
+        print(failcnt)
+        print("########################")
+
         time.sleep(5)
     elif (not err) and nhandle:
         mprint("requested {}, session_handle {}".format(answer, nhandle))
