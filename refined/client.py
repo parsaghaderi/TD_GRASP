@@ -77,8 +77,6 @@ while True:
             break
         else:
             mprint("cannot synchronize value\n\t"+graspi.etext[err])
-            mprint("exiting now")
-            exit()
     time.sleep(1)
 
 ################################
