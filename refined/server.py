@@ -159,7 +159,13 @@ class negotiator(threading.Thread):
                 mprint("negotiation succeeded")
                 mprint("final result\n {}".format(self.obj.value))
             else:
-                mprint("negotiation failed "+graspi.etext[err]+"\nreason: "+reason)
+                print("#########################")
+                print("negotiation failed\n\t")
+                print(graspi.etext[err])
+                print(reason)
+                print("#########################")
+                
+
 
 
 
