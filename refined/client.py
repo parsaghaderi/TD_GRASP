@@ -138,11 +138,11 @@ while keep_going:
         mprint("requested {}".format(answer.name))#√
         if _cbor:
             mprint(answer.value)#√
-        map2.value = cbor.loads(map2.value)
+        map2.value = cbor.loads(map2.value)#√
         mprint("peer offered {}".format(answer.value))#√
         map2.value.update(answer.value)#√
 
-        mprint("updated value for map2 "+map2.value)
+        mprint("updated value for map2 {}".format(map2.value))#√
         answer.value = cbor.dumps(map2.value)
         _r = graspi.negotiate_step(asa_handle, nhandle, answer, 1000)
         if _old_API:
