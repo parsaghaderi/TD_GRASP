@@ -128,25 +128,22 @@ class negotiator(threading.Thread):
         nhandler = self.nhandler
         try:
             answer.value = cbor.loads(answer.value)
-            mprint("cbor value decoded")
-            mprint(answer.value)
-            mprint("current value of objective")
-            mprint(self.obj.value)
+            mprint("cbor value decoded")#√
+            mprint(answer.value)#√
+            mprint("current value of objective")#√
+            mprint(self.obj.value)#√
             _cbor = True
         except:
             _cbor = False
-        mprint("objective name {} and value {}".format(self.obj.name, self.obj.value))
-        mprint("got request for objective {}".format(answer.name))
+        mprint("objective name {} and value {}".format(self.obj.name, self.obj.value))#√
+        mprint("got request for objective {}".format(answer.name))#√
         if answer.value == self.obj.value:
-            mprint("synchronized already")
+            mprint("synchronized already")#√
         else:
-            mprint("negotiating over {}".format(self.obj.name))
+            mprint("negotiating over {}".format(self.obj.name))#√
             step = 1
-            mprint("in _{}_ step of negotiation".format(step))
-            print("*************************")
-            answer.value = cbor.loads(answer.value)
-            print(answer.value)
-            print("*************************")
+            mprint("in _{}_ step of negotiation".format(step))#√
+            mprint("answer value is {}".format(answer.value))
             self.obj.value.update(answer.value) 
             _r = graspi.negotiate_step(self.handler, nhandler, self.obj, 1000)
             if _old_API:
