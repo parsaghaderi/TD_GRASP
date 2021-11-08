@@ -91,7 +91,7 @@ class flooder(threading.Thread):
         mprint("exiting flooder")
 
 
-flooder(tagged_map).start()
+# flooder(tagged_map).start()
 
 #####################################
 # creating objective for negotiation
