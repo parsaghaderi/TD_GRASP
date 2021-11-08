@@ -135,7 +135,7 @@ while keep_going:
         time.sleep(5)
     elif (not err) and nhandle:
         
-        mprint("requested {}, session_handle {}".format(answer.name, nhandle.locator))
+        mprint("requested {}".format(answer.name))#√
         if _cbor:
             answer.value = cbor.loads(answer.value)
 
