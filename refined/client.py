@@ -131,7 +131,7 @@ while keep_going:
 
         time.sleep(5)
     elif (not err) and nhandle:
-        map2 = cbor.load(nhandle)
+        map2 = cbor.load(answer)
         mprint("requested {}, session_handle {}".format(answer, map2.value))
         if _cbor:
             answer.value = cbor.loads(answer.value)

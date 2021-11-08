@@ -177,6 +177,7 @@ while True:
         mprint("listen_negotiate error\n\t" + graspi.etext[err])
         time.sleep(5)
     else:
+        mprint("listen negotiation succeed")
         negotiator(asa_handle, map2, shandle, answer).start()
     
     try:
