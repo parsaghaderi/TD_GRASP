@@ -134,7 +134,7 @@ class negotiator(threading.Thread):
         except:
             _cbor = False
         mprint("objective name {} and value {}".format(self.obj.name, self.obj.value))
-        mprint("got request for {}".format(answer.value))
+        mprint("got request for objective {}".format(answer.name))
 
         if answer.value == self.obj.value:
             mprint("synchronized already")
