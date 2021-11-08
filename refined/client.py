@@ -117,8 +117,8 @@ while keep_going:
         err, nhandle, answer = graspi.req_negotiate(asa_handle, map2, ll[0], None)
         reason = answer
     else:
-        mprint("old_api false")
-        err, nhandle, answer, reason = graspi.request_negotiate(asa_handle, map2, ll[0], None)
+        mprint("old_api false")#√
+        err, nhandle, answer, reason = graspi.request_negotiate(asa_handle, map2, ll[0], None)#√
     
     if err:
         if err==graspi.errors.declined and reason!="":
@@ -134,8 +134,8 @@ while keep_going:
 
         time.sleep(5)
     elif (not err) and nhandle:
-        map2 = cbor.load(answer)
-        mprint("requested {}, session_handle {}".format(answer, map2.value))
+        
+        mprint("requested {}, session_handle {}".format(answer.name, nhandle))
         if _cbor:
             answer.value = cbor.loads(answer.value)
 
