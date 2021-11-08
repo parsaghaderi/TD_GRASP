@@ -127,7 +127,7 @@ class negotiator(threading.Thread):
         answer = self.nobj
         nhandler = self.nhandler
         try:
-            answer.value = cbor.load(answer.value)
+            answer.value = cbor.loads(answer.value)
             mprint("cbor value decoded")
             mprint(answer.value)
             _cbor = True
@@ -135,7 +135,7 @@ class negotiator(threading.Thread):
             _cbor = False
         mprint("objective name {} and value {}".format(self.obj.name, self.obj.value))
         mprint("got request for objective {}".format(answer.name))
-        mprint("got request for objective {} with value {}".format(answer.name, cbor.load(answer.value)))
+        mprint("got request for objective {} with value {}".format(answer.name, cbor.loads(answer.value)))
         if answer.value == self.obj.value:
             mprint("synchronized already")
         else:
