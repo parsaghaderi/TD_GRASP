@@ -143,8 +143,9 @@ class negotiator(threading.Thread):
             mprint("negotiating over {}".format(self.obj.name))#√
             step = 1
             mprint("in _{}_ step of negotiation".format(step))#√
-            mprint("answer value is {}".format(answer.value))
+            mprint("answer value is {}".format(answer.value))#√
             self.obj.value.update(answer.value) 
+            mprint(self.obj.value)
             _r = graspi.negotiate_step(self.handler, nhandler, self.obj, 1000)
             if _old_API:
                 err, tmp, answer = _r
