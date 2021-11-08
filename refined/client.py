@@ -111,10 +111,13 @@ while keep_going:
 
     if _cbor:
         map2.value=cbor.dumps(map2.value)
+        mprint("value decoded")
     if _old_API:
+        mprint("old_api true")
         err, nhandle, answer = graspi.req_negotiate(asa_handle, map2, ll[0], None)
         reason = answer
     else:
+        mprint("old_api false")
         err, nhandle, answer, reason = graspi.request_negotiate(asa_handle, map2, ll[0], None)
     
     if err:
