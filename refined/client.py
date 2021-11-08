@@ -137,7 +137,7 @@ while keep_going:
         
         mprint("requested {}".format(answer.name))#√
         if _cbor:
-            answer.value = cbor.loads(answer.value)
+            mprint(answer.value)
 
         mprint("peer offered " + answer.value)
         map2.value.update(answer.value)

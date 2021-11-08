@@ -147,7 +147,7 @@ class negotiator(threading.Thread):
             self.obj.value.update(answer.value) #√
             mprint(self.obj.value)#√
             
-            _r = graspi.negotiate_step(self.handler, nhandler, cbor.dumps(self.obj), 1000)
+            _r = graspi.negotiate_step(self.handler, nhandler, self.obj, 1000)
             if _old_API:
                 err, tmp, answer = _r#√
                 reason = answer#√
