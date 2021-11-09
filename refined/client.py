@@ -143,7 +143,7 @@ while keep_going:
         map2.value.update(answer.value)#√
 
         mprint("updated value for map2 {}".format(map2.value))#√
-        answer.value = cbor.dumps(map2.value)
+        #answer.value = cbor.dumps(map2.value) #TODO
         _r = graspi.negotiate_step(asa_handle, nhandle, answer, 1000)
         if _old_API:
             err, temp, answer = _r

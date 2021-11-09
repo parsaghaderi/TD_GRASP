@@ -149,12 +149,12 @@ class negotiator(threading.Thread):
             
             _r = graspi.negotiate_step(self.handler, nhandler, self.obj, 1000)
             if _old_API:
-                err, tmp, answer = _r#√
-                reason = answer#√
-                mprint("old API true")#√
+                err, tmp, answer = _r
+                reason = answer
+                mprint("old API true")
             else:
                 err, temp, answer, reason = _r
-                mprint("old API false")
+                mprint("old API false")#√
             mprint("step {}\t gave: err {}, temp {}, answer {}, reason {}"
                                 .format(step, err, temp, answer, reason))
             if (not err) and (temp == None):
