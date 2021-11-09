@@ -157,7 +157,7 @@ class negotiator(threading.Thread):
                 mprint("old API false")#√
             mprint("step {}\t gave: err {}, temp {}, answer {}, reason {}"
                                 .format(step, err, temp, answer, reason))
-            if (not err) and (temp == None):
+            if (graspi.etext[err] == "OK") and (temp == None):
                 mprint("negotiation succeeded")
                 mprint("final result\n {}".format(self.obj.value))
             else:
