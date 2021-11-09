@@ -158,8 +158,11 @@ class negotiator(threading.Thread):
             mprint("step {}\t gave: err {}, temp {}, answer {}, reason {}"
                                 .format(step, err, temp, answer, reason))
             if (graspi.etext[err] == "OK"):
+                end_err = graspi.end_negotiate(asa_handle, nhandler, False, reason=None)
                 mprint("negotiation succeeded")
                 mprint("final result\n {}".format(self.obj.value))
+                if not end_err:
+                    mprint("negotiation session ended")
             else:
                 print("#########################")
                 print("negotiation failed\n\t")
