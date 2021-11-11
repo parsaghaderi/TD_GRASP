@@ -100,7 +100,7 @@ map2 = graspi.objective("map2")
 map2.neg = True
 map2.synch = False
 map2.loop_count = 10
-map2.value = value = {sys.argv[1]:[sys.argv[2:]]}
+map2.value = value = {sys.argv[1]:sys.argv[2:]}
 err = graspi.register_obj(asa_handle, map2)
 if not err:
     mprint("objective map2 registered correctly")
