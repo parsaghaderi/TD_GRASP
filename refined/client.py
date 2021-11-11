@@ -15,6 +15,8 @@ except:
 import threading
 import cbor
 import random
+import system
+import sys
 try: 
     import networkx as nx
 except:
@@ -86,7 +88,7 @@ map2 = graspi.objective("map2")
 map2.neg = True
 map2.synch = False
 map2.loop_count = 10
-map2.value = {'53':['49', '57']}
+map2.value = {sys.argv[1]:[sys.argv[2:]]}
 err = graspi.register_obj(asa_handle, map2)
 if not err:
     mprint("object registered successfully")
