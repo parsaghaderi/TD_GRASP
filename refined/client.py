@@ -75,7 +75,8 @@ while True:
             print("map synchronized\n\t")
             print(result.value)
             print("#########################\n")
-            break
+            # break
+            time.sleep(10)
         else:
             mprint("cannot synchronize value\n\t"+graspi.etext[err])
     time.sleep(1)
