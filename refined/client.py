@@ -86,7 +86,10 @@ class sync(threading.Thread):
                 else:
                     mprint("cannot synchronize value\n\t"+graspi.etext[err])
             time.sleep(1)
-sync()
+
+tagged_map = graspi.tagged_objective(map, asa_handle)
+sync(tagged_map).start()
+
 ################################
 # negotiation
 ################################
