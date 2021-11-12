@@ -82,7 +82,7 @@ class sync(threading.Thread):
                     print(result.value)
                     print("#########################\n")
                     # break
-                    time.sleep(10)
+                    time.sleep(3)
                 else:
                     mprint("cannot synchronize value\n\t"+graspi.etext[err])
             time.sleep(1)
