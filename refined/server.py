@@ -161,6 +161,7 @@ class negotiator(threading.Thread):
                 end_err = graspi.end_negotiate(asa_handle, nhandler, False, reason=None)
                 mprint("negotiation succeeded")
                 mprint("final result\n {}".format(self.obj.value))
+                map.value = self.obj.value
                 if not end_err:
                     mprint("negotiation session ended")
             else:
