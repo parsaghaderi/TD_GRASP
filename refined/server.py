@@ -107,6 +107,7 @@ if not err:
 else:
     mrpint("cannot register map2\n\t" + graspi.etext[err])
     mprint("exiting now")
+    
     exit()
 
 ####################
