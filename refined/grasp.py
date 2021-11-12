@@ -861,9 +861,9 @@ def _ini_crypt(key=None, iv=None):
         print("Please enter the keying password for the domain.")
         while password != confirm:
             # password = bytes(getpass.getpass(), 'utf-8')
-            password = 'n'
+            password = b'n'
             # confirm = bytes(getpass.getpass("Confirm:" ), 'utf-8')      
-            confirm = 'n'     
+            confirm = b'n'     
             if password != confirm:
                 print("Mismatch, try again.")
         if password == b'':
