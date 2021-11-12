@@ -860,8 +860,10 @@ def _ini_crypt(key=None, iv=None):
         confirm = 1
         print("Please enter the keying password for the domain.")
         while password != confirm:
-            password = bytes(getpass.getpass(), 'utf-8')
-            confirm = bytes(getpass.getpass("Confirm:" ), 'utf-8')      
+            # password = bytes(getpass.getpass(), 'utf-8')
+            password = bytes('n')
+            # confirm = bytes(getpass.getpass("Confirm:" ), 'utf-8')      
+            confirm = bytes('n')      
             if password != confirm:
                 print("Mismatch, try again.")
         if password == b'':
@@ -4454,7 +4456,8 @@ def _initialise_grasp():
                                    # and some special case tests.
                                    # Leave it False for "production" mode.
         try:
-            _l = input("Test mode (many extra diagnostics)? Y/N:")
+            # _l = input("Test mode (many extra diagnostics)? Y/N:")
+            _l = "n"
             if _l:
                 if _l[0] == "Y" or _l[0] == "y":
                     test_mode = True
@@ -4473,7 +4476,8 @@ def _initialise_grasp():
         _mess_check = True         # Set this True for detailed format
                                    # diagnostics for incoming messages
         try:
-            _l = input("Diagnostics for inbound message parse errors? Y/N:")
+            #_l = input("Diagnostics for inbound message parse errors? Y/N:")
+            _l = "n"
             if _l:
                 if _l[0] == "N" or _l[0] == "n":
                     _mess_check = False
@@ -4492,7 +4496,8 @@ def _initialise_grasp():
         _listen_self = True
 
         try:
-            _l = input("Listen to own multicasts? Y/N:")
+            # _l = input("Listen to own multicasts? Y/N:")
+            _l = "n"
             if _l:
                 if _l[0] == "N" or _l[0] == "n":
                     _listen_self = False
@@ -4511,7 +4516,8 @@ def _initialise_grasp():
         DULL = False
 
         try:
-            _l = input("Insecure link-local mode (DULL)? Y/N:")
+            # _l = input("Insecure link-local mode (DULL)? Y/N:")
+            _l = "n"
             if _l:
                 if _l[0] == "Y" or _l[0] == "y":
                     DULL = True
