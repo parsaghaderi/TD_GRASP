@@ -76,10 +76,11 @@ class sync(threading.Thread):
                 mprint("synchronizing map objective")
                 err, result = graspi.synchronize(self.asa, self.obj, None, 5000)
                 if not err:
-
+                    
                     print("#########################\n")
                     print("map synchronized\n\t")
                     print(result.value)
+                    self.tagged.objective = result 
                     print("#########################\n")
                     # break
                     time.sleep(3)
@@ -120,6 +121,11 @@ while keep_going:
     print(ll[0].locator)
     print("###############################")
 
+    print("###############################")
+    print("list of discovered locator\n\t")
+    for x in ll:
+        print(x.locator)
+    print("###############################")
     if _cbor:
         map2.value=cbor.dumps(map2.value)
         mprint("value decoded")
