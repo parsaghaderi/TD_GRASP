@@ -66,7 +66,7 @@ map.loop_count = 10 #TODO change to 4
 #############################
 class sync(threading.Thread):
     def __init__(self, tagged):
-        threading.Thread.__init__(self, tagged)
+        threading.Thread.__init__(self)
         self.obj = tagged.objective
         self.asa = tagged.source
         self.tagged = tagged
