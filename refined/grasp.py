@@ -1312,7 +1312,7 @@ def discover(asa_handle, obj, timeout, flush=False, minimum_TTL=-1,
 
     # Not already discovered (or flushed), launch discovery session
 
-    if not relay_ifi:
+    if not relay_ifi: #TODO check this out later
         disc_sess = _new_session(_session_locator)
         shandle=_session_handle(disc_sess,_session_locator.packed)
         #hack to detect own replies when running two instances

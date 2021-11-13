@@ -74,13 +74,13 @@ class sync(threading.Thread):
         while True:
             if keep_going:
                 mprint("synchronizing map objective")
-                err, result = graspi.synchronize(self.asa, self.obj, None, 5000)
+                err, result = graspi.syn#chronize(self.asa, self.obj, None, 5000)
                 if not err:
                     
                     print("#########################\n")
                     print("map synchronized\n\t")
                     print(result.value)
-                    self.tagged.objective = result 
+                    # self.tagged.objective = result 
                     print("#########################\n")
                     # break
                     time.sleep(3)
