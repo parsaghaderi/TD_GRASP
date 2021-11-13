@@ -74,7 +74,7 @@ class sync(threading.Thread):
         while True:
             if keep_going:
                 mprint("synchronizing map objective")
-                err, result = graspi.syn#chronize(self.asa, self.obj, None, 5000)
+                err, result = graspi.synchronize(self.asa, self.obj, None, 5000)
                 if not err:
                     
                     print("#########################\n")
