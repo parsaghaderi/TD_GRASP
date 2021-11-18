@@ -1313,7 +1313,7 @@ def discover(asa_handle, obj, timeout, flush=False, minimum_TTL=-1,
     # Not already discovered (or flushed), launch discovery session
 
     if not relay_ifi: #TODO check this out later
-        disc_sess = _new_session(_session_locator)
+        disc_sess = _new_session(_session_locator) #TODO check _session_locator
         shandle=_session_handle(disc_sess,_session_locator.packed)
         #hack to detect own replies when running two instances
         _i_sent_it = disc_sess
@@ -1580,7 +1580,7 @@ def req_negotiate(asa_handle, obj, peer, timeout, noloop=False):
         _disactivate_session(shandle)
         return errors.sockErrNegRq, None, None
 
-    if noloop:
+    if noloop: #TODO what's this?
         # user wants to use session for grecv()/gsend()
         # first operation for this socket - hang it onto session
         #  - this is normally done by _negloop()
@@ -1629,7 +1629,7 @@ def negotiate_step(asa_handle, shandle, obj, timeout):
         return errors.noSecurity, None, None
     #verify session
     neg_sess = shandle.id_value
-    s = _get_session(shandle)
+    s = _get_session(shandle)#TODO check this later
     if not s:
         return errors.noSession, None, None
     #retrieve the socket
@@ -3179,7 +3179,7 @@ def _ass_message(msg_type, session_id, initiator, *whatever):
     return _encrypt_msg(msg_bytes)
 
 
-def _detag_obj(x):
+def _detag_obj(x): #TODO what's tag
     """Internal use only"""
 ####################################
 # If value is embedded CBOR, remove tagging.
