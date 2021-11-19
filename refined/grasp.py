@@ -247,6 +247,8 @@ _version = "RFC8990-BC-20211015"
 ####################################
 
 import sys
+
+from client import mprint
 if sys.version_info[0] < 3 or \
    (sys.version_info[0] == 3 and sys.version_info[1]) < 4:
     raise RuntimeError("Must use Python 3.4 or later")
@@ -1570,10 +1572,19 @@ def req_negotiate(asa_handle, obj, peer, timeout, noloop=False):
         _ifi = 0
     try:
         ttprint("Sending req_negotiate to",peer.locator, peer.port)
+        mprint("here 1")
         sock.settimeout(5) #there should always be a listener
+        mprint("here 2")
+
         sock.connect((str(peer.locator), peer.port,0,_ifi))
+        mprint("here 3")
+
         msg_bytes = _ass_message(M_REQ_NEG, neg_sess, None, obj)
+        mprint("here 4")
+
         sock.sendall(msg_bytes,0)
+        mprint("here 5")
+
     except OSError as ex:
         tprint("Socket error sending negotiation request", ex)
         sock.close()
