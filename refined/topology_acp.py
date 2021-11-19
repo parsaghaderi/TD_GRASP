@@ -63,7 +63,7 @@ tagged_leader = graspi.tagged_objective(leader, asa_handle)
 
 class flooder(threading.Thread):
     def __init__(self, tagged):
-        threading.Thread.__init__(self):
+        threading.Thread.__init__(self)
         self.obj=  tagged.objective
         self.asa = tagged.source
         self.tagged = tagged
@@ -123,4 +123,3 @@ while KEEP_GOING:
         mprint("listen_negotiation error: {}".format(graspi.etext[err]))
     else:
         negotiator(shandle, answer).start()
-        
