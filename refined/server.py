@@ -192,12 +192,12 @@ class negotiator(threading.Thread):
 class observer(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
-
+        global LAST_UPDATE
     def run(self):
         if os.stat('/etc/TD_map/neighbors.map').st_mtime == LAST_UPDATE:
             global MY_ADDRESS
             global NEIGHBORS
-            global LAST_UPDATE
+            
             MY_ADDRESS, NEIGHBORS = readmap(MAP_PATH)
             map2.value[MY_ADDRESS] = NEIGHBORS
             mprint("local map changed")
