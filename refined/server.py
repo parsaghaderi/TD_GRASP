@@ -18,7 +18,6 @@ import threading
 import cbor
 import random
 
-
 MAP_PATH = '/etc/TD_map/neighbors.map'
 def readmap(path):
     file = open(path)
@@ -26,7 +25,24 @@ def readmap(path):
     l = [int(item) for item in l]
     return l[0], l[1:]
 
+
+LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
 MY_ADDRESS, NEIGHBORS = readmap(MAP_PATH)
+
+
+class observer(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
+
+    def run(self):
+        if os.stat('/etc/TD_map/neighbors.map').st_mtime == LAST_UPDATE:
+            global MY_ADDRESS
+            global NEIGHBORS
+            MY_ADDRESS, NEIGHBORS = readmap(MAP_PATH)
+            time.sleep(5)
+            
+
+
 try: 
     import networkx as nx
 except:
@@ -73,7 +89,7 @@ map = graspi.objective("map")
 map.neg = False
 map.synch = True
 map.loop_count = 10 #TODO change to 4
-map.value = {'49':['53', '30']}
+map.value = {MY_ADDRESS:NEIGHBORS}
 err = graspi.register_obj(asa_handle, map)
 if not err:
     mprint("Objective registered successfully")
@@ -84,8 +100,9 @@ else:
 
 #creating tagged objective
 tagged_map = graspi.tagged_objective(map, asa_handle)
-
+from sync_server import flooder
 #pass a tagged objective
+#TODO change here - separate
 class flooder(threading.Thread):
     def __init__(self, tagged):
         threading.Thread.__init__(self)
@@ -102,7 +119,7 @@ class flooder(threading.Thread):
 
 
 flooder(tagged_map).start()
-
+observer().start()
 #####################################
 # creating objective for negotiation
 #####################################
