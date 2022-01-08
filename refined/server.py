@@ -114,7 +114,7 @@ map2 = graspi.objective("map2")
 map2.neg = True
 map2.synch = False
 map2.loop_count = 10
-map2.value = value = {MY_ADDRESS:NEIGHBORS}
+map2.value = {MY_ADDRESS:NEIGHBORS}
 err = graspi.register_obj(asa_handle, map2)
 if not err:
     mprint("objective map2 registered correctly")
@@ -198,8 +198,10 @@ class observer(threading.Thread):
             global MY_ADDRESS
             global NEIGHBORS
             global map2
+            global map
             MY_ADDRESS, NEIGHBORS = readmap(MAP_PATH)
             map2.value[MY_ADDRESS] = NEIGHBORS
+            map.value[MY_ADDRESS] = NEIGHBORS
             mprint("local map changed")
             mprint(cbor.loads(map2.value))
             LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
