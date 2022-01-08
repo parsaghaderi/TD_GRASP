@@ -63,7 +63,7 @@ tagged_leader = graspi.tagged_objective(leader, asa_handle)
 
 class flooder(threading.Thread):
     def __init__(self, tagged):
-        threading.Thread.__init__(self)
+        threading.Thread.__init__(self):
         self.obj=  tagged.objective
         self.asa = tagged.source
         self.tagged = tagged
@@ -78,6 +78,7 @@ class flooder(threading.Thread):
         else:
             mprint("you're not the leader")
 flooder(tagged_leader).start()
+
 
 class negotiator(threading.Thread):
     def __init__(self, shandle, nobj):
@@ -116,10 +117,49 @@ class negotiator(threading.Thread):
                     mprint("end_negotiation error {}".format(graspi.etext[err]))
 
 time.sleep(10)
+class run_negotiator(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
+    def run(self):
+        while KEEP_GOING:
+            err, shandle, answer = graspi.listen_negotiate(asa_handle, leader)
+            if err:
+                mprint("listen_negotiation error: {}".format(graspi.etext[err]))
+            else:
+                negotiator(shandle,answer).start()
 
-while KEEP_GOING:
-    err, shandle, answer = graspi.listen_negotiate(asa_handle, leader)
-    if err:
-        mprint("listen_negotiation error: {}".format(graspi.etext[err]))
-    else:
-        negotiator(shandle, answer).start()
+run_negotiator().start()
+
+mprint("ready to negotiate")
+
+class neg_starter(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
+    def run(self):
+        while KEEP_GOING:
+            _, ll = graspi.discover(asa_handle, leader, 1000, flush = True)
+            if ll == []:
+                mprint("discovery failed")
+                continue
+            mprint("discovered locator {}".format(ll))
+
+            for locator in ll:
+                ldr_cpy = leader
+                ldr_cpy.value = cbor.dumps(ldr_cpy.value)
+                if _old_API:
+                    err, shandle, answer = graspi.req_negotiate(asa_handle, ldr_cpy, locator, None)
+                    reason = answer
+                else:
+                    err, shandle, answer, reason = graspi.request_negotiate(asa_handle, ldr_cpy, locator, None)
+                if err:
+                    if err==graspi.errors.declined and reason!="":
+                        _e = reason
+                    else:
+                        _e = graspi.etext[err]
+                    mprint("request_negotiate error: {}".format(_e))
+                elif (not err) and shandle:
+                    if _cbor:
+                        try:
+                            if answer.dry:
+                                if poll > cbor.loads(answer.value):
+                                    

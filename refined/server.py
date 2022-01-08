@@ -17,6 +17,16 @@ except:
 import threading
 import cbor
 import random
+
+
+MAP_PATH = 'cat /etc/TD_map/neighbors.map'
+def readmap(path):
+    file = open(path)
+    l = file.readlines()
+    l = [int(item) for item in l]
+    return l[0], l[1:]
+
+MY_ADDRESS, NEIGHBORS = readmap(MAP_PATH)
 try: 
     import networkx as nx
 except:
@@ -100,7 +110,7 @@ map2 = graspi.objective("map2")
 map2.neg = True
 map2.synch = False
 map2.loop_count = 10
-map2.value = value = {sys.argv[1]:sys.argv[2:]}
+map2.value = value = {MY_ADDRESS:NEIGHBORS}
 err = graspi.register_obj(asa_handle, map2)
 if not err:
     mprint("objective map2 registered correctly")
