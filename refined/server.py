@@ -101,7 +101,7 @@ else:
 
 #creating tagged objective
 tagged_map = graspi.tagged_objective(map, asa_handle)
-from sync_server import flooder
+# from sync_server import flooder
 #pass a tagged objective
 #TODO change here - separate
 class flooder(threading.Thread):
