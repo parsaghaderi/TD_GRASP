@@ -19,7 +19,7 @@ import cbor
 import random
 
 
-MAP_PATH = 'cat /etc/TD_map/neighbors.map'
+MAP_PATH = '/etc/TD_map/neighbors.map'
 def readmap(path):
     file = open(path)
     l = file.readlines()
