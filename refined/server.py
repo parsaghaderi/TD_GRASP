@@ -1,6 +1,7 @@
 import time
 from traceback import extract_stack
 import sys
+import os
 _old_API = False
 try:
     import graspi
