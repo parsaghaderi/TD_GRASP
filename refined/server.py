@@ -31,19 +31,6 @@ LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
 MY_ADDRESS, NEIGHBORS = readmap(MAP_PATH)
 
 
-class observer(threading.Thread):
-    def __init__(self):
-        threading.Thread.__init__(self)
-
-    def run(self):
-        if os.stat('/etc/TD_map/neighbors.map').st_mtime == LAST_UPDATE:
-            global MY_ADDRESS
-            global NEIGHBORS
-            MY_ADDRESS, NEIGHBORS = readmap(MAP_PATH)
-            time.sleep(5)
-            
-
-
 try: 
     import networkx as nx
 except:
@@ -202,7 +189,21 @@ class negotiator(threading.Thread):
                 
 
 
+class observer(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
 
+    def run(self):
+        if os.stat('/etc/TD_map/neighbors.map').st_mtime == LAST_UPDATE:
+            global MY_ADDRESS
+            global NEIGHBORS
+            global LAST_UPDATE
+            MY_ADDRESS, NEIGHBORS = readmap(MAP_PATH)
+            map2.value[MY_ADDRESS] = NEIGHBORS
+            mprint("local map changed")
+            LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
+            time.sleep(5)
+            
 
 while True:
     mprint("listening for negotiation requests")
@@ -214,7 +215,7 @@ while True:
     else:
         mprint("listen negotiation succeed")
         negotiator(asa_handle, map2, shandle, answer).start()
-    
+        observer().start()
     try:
         if not graspi.checkrun(asa_handle, "TD_Server"):
             keep_going = False  
