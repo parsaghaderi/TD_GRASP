@@ -197,11 +197,11 @@ class observer(threading.Thread):
         if os.stat('/etc/TD_map/neighbors.map').st_mtime == LAST_UPDATE:
             global MY_ADDRESS
             global NEIGHBORS
-            
+            global map2
             MY_ADDRESS, NEIGHBORS = readmap(MAP_PATH)
             map2.value[MY_ADDRESS] = NEIGHBORS
             mprint("local map changed")
-            mprint(map2.value)
+            mprint(cbor.loads(map2.value))
             LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
             time.sleep(5)
             
