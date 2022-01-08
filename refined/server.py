@@ -107,7 +107,6 @@ class flooder(threading.Thread):
 
 
 flooder(tagged_map).start()
-observer().start()
 #####################################
 # creating objective for negotiation
 #####################################
