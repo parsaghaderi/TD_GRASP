@@ -205,6 +205,11 @@ class observer(threading.Thread):
                 map2.value[MY_ADDRESS] = NEIGHBORS
                 map.value[MY_ADDRESS] = NEIGHBORS
                 mprint("local map changed")
+                print("\n********\n{}\n************".format(MY_ADDRESS))
+                print("\n********\n{}\n************".format(NEIGHBORS))
+
+                print("\n********\n{}\n************".format(readmap(MAP_PATH)))
+
                 print("\n********\n{}\n************".format(map2.value))
                 print("\n********\n{}\n************".format(map.value))
                 # mprint(NEIGHBORS)
