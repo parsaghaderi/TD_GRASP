@@ -199,11 +199,12 @@ class observer(threading.Thread):
             global NEIGHBORS
             global map2
             global map
+            global MAP_PATH
             MY_ADDRESS, NEIGHBORS = readmap(MAP_PATH)
             map2.value[MY_ADDRESS] = NEIGHBORS
             map.value[MY_ADDRESS] = NEIGHBORS
             mprint("local map changed")
-            mprint(MY_ADDRESS)
+            mprint(readmap(MAP_PATH))
             mprint(NEIGHBORS)
             LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
             time.sleep(5)
