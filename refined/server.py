@@ -194,20 +194,21 @@ class observer(threading.Thread):
         
     def run(self):
         global LAST_UPDATE
-        if os.stat('/etc/TD_map/neighbors.map').st_mtime == LAST_UPDATE:
-            global MY_ADDRESS
-            global NEIGHBORS
-            global map2
-            global map
-            global MAP_PATH
-            MY_ADDRESS, NEIGHBORS = readmap(MAP_PATH)
-            map2.value[MY_ADDRESS] = NEIGHBORS
-            map.value[MY_ADDRESS] = NEIGHBORS
-            mprint("local map changed")
-            print("\n********\n{}\n************".format(readmap(MAP_PATH)))
-            # mprint(NEIGHBORS)
-            LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
-            # time.sleep(1)
+        while True:
+            if os.stat('/etc/TD_map/neighbors.map').st_mtime == LAST_UPDATE:
+                global MY_ADDRESS
+                global NEIGHBORS
+                global map2
+                global map
+                global MAP_PATH
+                MY_ADDRESS, NEIGHBORS = readmap(MAP_PATH)
+                map2.value[MY_ADDRESS] = NEIGHBORS
+                map.value[MY_ADDRESS] = NEIGHBORS
+                mprint("local map changed")
+                print("\n********\n{}\n************".format(readmap(MAP_PATH)))
+                # mprint(NEIGHBORS)
+                LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
+                time.sleep(1)
             
 observer().start()
 while True:
