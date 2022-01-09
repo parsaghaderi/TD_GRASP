@@ -207,9 +207,9 @@ class observer(threading.Thread):
             mprint("********" + readmap(MAP_PATH) + "************")
             # mprint(NEIGHBORS)
             LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
-            # time.sleep(5)
+            # time.sleep(1)
             
-
+observer().start()
 while True:
     mprint("listening for negotiation requests")
     err, shandle, answer = graspi.listen_negotiate(asa_handle, map2)
@@ -220,7 +220,7 @@ while True:
     else:
         mprint("listen negotiation succeed")
         negotiator(asa_handle, map2, shandle, answer).start()
-        observer().start()
+        
     try:
         if not graspi.checkrun(asa_handle, "TD_Server"):
             keep_going = False  
