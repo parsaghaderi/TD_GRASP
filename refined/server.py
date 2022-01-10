@@ -2,6 +2,7 @@ import time
 from traceback import extract_stack
 import sys
 import os
+from typing import List
 _old_API = False
 try:
     import graspi
@@ -196,10 +197,14 @@ class observer(threading.Thread):
         
     def run(self):
         global LAST_UPDATE
+        global map
+        global map2
         while True:
             if os.stat('/etc/TD_map/neighbors.map').st_mtime != LAST_UPDATE:
                 mprint("changed")
                 LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
+                map_address, neighbors = readmap('/etc/TD_map/neighbors.map')
+                map.value[map_address] = neighbors
             
 observer().start()
 while True:
