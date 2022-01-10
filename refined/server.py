@@ -100,10 +100,12 @@ class flooder(threading.Thread):
         self.tagged = tagged
         
     def run(self):
+        global tagged_map
+        global map
         while keep_going:
             mprint("flooding map")
-            err = graspi.flood(self.asa, 59000, [graspi.tagged_objective(self.obj, None)])
-            time.sleep(5)
+            err = graspi.flood(self.asa, 59000, [graspi.tagged_objective(tagged_map.objective, None)])
+            time.sleep(1)
         mprint("exiting flooder")
 
 
@@ -141,6 +143,7 @@ class negotiator(threading.Thread):
     def run(self):
         global map
         global map2
+        global tagged_map
         mprint("starting negotiation")
         answer = self.nobj
         nhandler = self.nhandler
@@ -180,6 +183,7 @@ class negotiator(threading.Thread):
                 mprint("negotiation succeeded")
                 mprint("final result\n {}".format(self.obj.value))
                 map.value = self.obj.value
+                tagged_map.objective.value = map.value
                 if not end_err:
                     mprint("negotiation session ended")
             else:
