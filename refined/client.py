@@ -16,7 +16,7 @@ import threading
 import cbor
 import random
 import sys
-
+import os
 MAP_PATH = '/etc/TD_map/neighbors.map'
 def readmap(path):
     file = open(path)
@@ -25,6 +25,7 @@ def readmap(path):
     return l[0], l[1:]
 
 MY_ADDRESS, NEIGHBORS = readmap(MAP_PATH)
+LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
 
 try: 
     import networkx as nx
@@ -81,10 +82,12 @@ class sync(threading.Thread):
         self.asa = tagged.source
         self.tagged = tagged
     def run(self):
+        global tagged_map
+        global map
         while True:
             if keep_going:
                 mprint("synchronizing map objective")
-                err, result = graspi.synchronize(self.asa, self.obj, None, 5000)
+                err, result = graspi.synchronize(self.asa, tagged_map.objective, None, 5000)
                 if not err:
                     
                     print("#########################\n")
@@ -101,6 +104,7 @@ class sync(threading.Thread):
 tagged_map = graspi.tagged_objective(map, asa_handle)
 sync(tagged_map).start()
 
+
 ################################
 # negotiation
 ################################
@@ -110,6 +114,24 @@ map2.synch = False
 map2.loop_count = 10
 map2.value = {MY_ADDRESS:NEIGHBORS}
 
+class observer(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
+        
+    def run(self):
+        global LAST_UPDATE
+        global map
+        global map2
+        while True:
+            if os.stat('/etc/TD_map/neighbors.map').st_mtime != LAST_UPDATE:
+                mprint("map updated")
+                LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
+                map_address, neighbors = readmap('/etc/TD_map/neighbors.map')
+                map.value[map_address] = neighbors
+                map_address, neighbors = readmap('/etc/TD_map/neighbors.map')
+                map2.value[map_address] = neighbors
+
+observer().start()
 
 err = graspi.register_obj(asa_handle, map2)
 if not err:
