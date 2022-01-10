@@ -209,6 +209,8 @@ class observer(threading.Thread):
                 LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
                 map_address, neighbors = readmap('/etc/TD_map/neighbors.map')
                 map.value[map_address] = neighbors
+                mprint(map.value)
+                mprint(tagged_map.objective.value)
             
 observer().start()
 while True:
