@@ -138,6 +138,8 @@ class negotiator(threading.Thread):
         self.nobj = nobj
 
     def run(self):
+        global map
+        global map2
         mprint("starting negotiation")
         answer = self.nobj
         nhandler = self.nhandler
@@ -214,7 +216,7 @@ class observer(threading.Thread):
                 print("\n********\n{}\n************".format(map.value))
                 # mprint(NEIGHBORS)
                 LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
-                time.sleep(1)
+                time.sleep(0.5)
             
 observer().start()
 while True:
