@@ -199,6 +199,7 @@ class observer(threading.Thread):
         while True:
             if os.stat('/etc/TD_map/neighbors.map').st_mtime != LAST_UPDATE:
                 mprint("changed")
+                LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
             
 observer().start()
 while True:
