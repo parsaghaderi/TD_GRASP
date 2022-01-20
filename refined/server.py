@@ -50,7 +50,7 @@ tagged_map = TAG_OBJ(map, asa_handle)
 #         mprint("exiting flooder")
 
 
-flooder(tagged_map).start()
+flooder(tagged_map, asa_handle).start()
 #####################################
 # creating objective for negotiation
 #####################################

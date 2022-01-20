@@ -100,9 +100,10 @@ def TAG_OBJ(obj, ASA):
 #flooder thread
 #########################
 class flooder(threading.Thread):
-    def __init__(self, tagged):
+    def __init__(self, tagged, asa):
         threading.Thread.__init__(self)
         self.tagged = tagged
+        self.asa = asa
 
     def run(self):
         # self.obj = tagged.objective
