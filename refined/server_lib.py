@@ -100,9 +100,8 @@ def TAG_OBJ(obj, ASA):
 #flooder thread
 #########################
 class flooder(threading.Thread):
-    def __init__(self, tagged):
+    def __init__(self):
         threading.Thread.__init__(self)
-        
         
     def run(self, tagged_map):
         # self.obj = tagged.objective
@@ -110,7 +109,7 @@ class flooder(threading.Thread):
         # self.tagged = tagged
         # global tagged_map
         # global map
-        while keep_going:
+        while True:
             mprint("flooding map")
             err = graspi.flood(self.asa, 59000, [graspi.tagged_objective(tagged_map.objective, None)])
             time.sleep(1)
