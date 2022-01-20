@@ -21,7 +21,22 @@
 # import random
 
 from server_lib import *
-_old_API = _old_API2
+_old_API = False
+
+try:
+    import graspi
+except:
+    print("Cannot find the RFC API module graspi.py.")
+    print("Will run with only the basic grasp.py module.")
+    _old_API = True
+    try:
+        import grasp as graspi
+    except:
+        print("Cannot import grasp.py")
+        time.sleep(10)
+        exit()
+
+
 MAP_PATH = '/etc/TD_map/neighbors.map'
 def readmap(path):
     file = open(path)
