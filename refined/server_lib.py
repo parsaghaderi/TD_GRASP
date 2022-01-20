@@ -92,8 +92,6 @@ def OBJ_REG(name, value, neg, synch, loop_count, ASA):
         mprint("exiting now.")
     return obj, err
         
-
-ç
 def TAG_OBJ(obj, ASA):
     return graspi.tagged_objective(obj, ASA)
 
