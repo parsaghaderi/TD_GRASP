@@ -21,7 +21,7 @@
 # import random
 
 from server_lib import *
-
+_old_API = _old_API2
 MAP_PATH = '/etc/TD_map/neighbors.map'
 def readmap(path):
     file = open(path)
