@@ -325,6 +325,7 @@ class observer(threading.Thread):
         global LAST_UPDATE
         # global map
         global map2
+        t1 = None
         t1 = threading.Thread(target=negotiator().run)
         t1.start()
         while True:
@@ -336,6 +337,7 @@ class observer(threading.Thread):
                 # map.value[map_address] = neighbors
                 map_address, neighbors = readmap('/etc/TD_map/neighbors.map')
                 map2.value[map_address] = neighbors
+                t1 = threading.Thread(target=negotiator().run)
                 t1.start()
 
 observer().start()
