@@ -1,24 +1,26 @@
-import time
-from traceback import extract_stack
-import sys
-import os
-from typing import List
-_old_API = False
-try:
-    import graspi
-except:
-    print("Cannot find the RFC API module graspi.py.")
-    print("Will run with only the basic grasp.py module.")
-    _old_API = True
-    try:
-        import grasp as graspi
-    except:
-        print("Cannot import grasp.py")
-        time.sleep(10)
-        exit()
-import threading
-import cbor
-import random
+# import time
+# from traceback import extract_stack
+# import sys
+# import os
+# from typing import List
+# _old_API = False
+# try:
+#     import graspi
+# except:
+#     print("Cannot find the RFC API module graspi.py.")
+#     print("Will run with only the basic grasp.py module.")
+#     _old_API = True
+#     try:
+#         import grasp as graspi
+#     except:
+#         print("Cannot import grasp.py")
+#         time.sleep(10)
+#         exit()
+# import threading
+# import cbor
+# import random
+
+from server_lib import *
 
 MAP_PATH = '/etc/TD_map/neighbors.map'
 def readmap(path):
