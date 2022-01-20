@@ -1,28 +1,6 @@
-# import time
-# from traceback import extract_stack
-# import sys
-# import os
-# from typing import List
-# _old_API = False
-# try:
-#     import graspi
-# except:
-#     print("Cannot find the RFC API module graspi.py.")
-#     print("Will run with only the basic grasp.py module.")
-#     _old_API = True
-#     try:
-#         import grasp as graspi
-#     except:
-#         print("Cannot import grasp.py")
-#         time.sleep(10)
-#         exit()
-# import threading
-# import cbor
-# import random
-
 from server_lib import *
 _old_API = False
-
+#TODO: delete this part
 try:
     import graspi
 except:
@@ -37,59 +15,30 @@ except:
         exit()
 
 
-MAP_PATH = '/etc/TD_map/neighbors.map'
-def readmap(path):
-    file = open(path)
-    l = file.readlines()
-    l = [int(item) for item in l]
-    return l[0], l[1:]
+
 
 
 LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
 MY_ADDRESS, NEIGHBORS = readmap(MAP_PATH)
-
-
-try: 
-    import networkx as nx
-except:
-    print("can't import networkx; installing networkx")
-    import os
-    os.system('python3 -m pip install networkx')
 keep_going = True
 
 print("to the code and beyond!")
-#########################
-# utility print function
-#########################
-def mprint(msg):
-    print("\n#######################")
-    print(msg)
-    print("#######################\n")
 
 
-#########################
-#check grasp
-#########################
-try:
-    graspi.checkrun
-except:
-    #not running under ASA loader
-    graspi.tprint("========================")
-    graspi.tprint("ASA server is starting up.")
-    graspi.tprint("========================")
+
 
 ###############################
 #registering objective and ASA
 ###############################
-mprint("registering asa and objective")
-err, asa_handle = graspi.register_asa("TD_Server")
-if not err:
-    mprint("ASA registered successfully")
-else:
-    mprint("Cannot register ASA:\n\t" + graspi.etext[err])
-    mprint("exiting now.")
-    exit()
-
+# mprint("registering asa and objective")
+# err, asa_handle = graspi.register_asa("TD_Server")
+# if not err:
+#     mprint("ASA registered successfully")
+# else:
+#     mprint("Cannot register ASA:\n\t" + graspi.etext[err])
+#     mprint("exiting now.")
+#     exit()
+err, asa_handle = ASA_REG("TD_Server")
 
 map = graspi.objective("map")
 map.neg = False
