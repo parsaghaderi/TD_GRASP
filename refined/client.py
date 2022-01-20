@@ -222,6 +222,9 @@ class negotiator(threading.Thread):
         threading.Thread.__init__(self)
     
     def run(self):
+        global map
+        global map2
+        
         while keep_going:
             _, ll = graspi.discover(asa_handle, map2, 10000, flush=True)
             
