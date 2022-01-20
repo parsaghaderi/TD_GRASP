@@ -146,6 +146,7 @@ class negotiator(threading.Thread):
         global map
         global map2
         global tagged_map
+        global _old_API
         mprint("starting negotiation")
         answer = self.nobj
         nhandler = self.nhandler
