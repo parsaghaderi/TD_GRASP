@@ -29,44 +29,30 @@ if err:
 #creating tagged objective
 tagged_map = TAG_OBJ(map, asa_handle)
 
-
-# from sync_server import flooder
-#pass a tagged objective
-#TODO change here - separate
-# class flooder(threading.Thread):
-#     def __init__(self, tagged):
-#         threading.Thread.__init__(self)
-#         self.obj = tagged.objective
-#         self.asa = tagged.source
-#         self.tagged = tagged
-        
-#     def run(self):
-#         global tagged_map
-#         global map
-#         while keep_going:
-#             mprint("flooding map")
-#             err = graspi.flood(self.asa, 59000, [graspi.tagged_objective(tagged_map.objective, None)])
-#             time.sleep(1)
-#         mprint("exiting flooder")
-
-
 flooder(tagged_map, asa_handle).start()
+
+
 #####################################
 # creating objective for negotiation
 #####################################
-map2 = graspi.objective("map2")
-map2.neg = True
-map2.synch = False
-map2.loop_count = 10
-map2.value = {MY_ADDRESS:NEIGHBORS}
-err = graspi.register_obj(asa_handle, map2)
-if not err:
-    mprint("objective map2 registered correctly")
-else:
-    mrpint("cannot register map2\n\t" + graspi.etext[err])
-    mprint("exiting now")
+# map2 = graspi.objective("map2")
+# map2.neg = True
+# map2.synch = False
+# map2.loop_count = 10
+# map2.value = {MY_ADDRESS:NEIGHBORS}
+# err = graspi.register_obj(asa_handle, map2)
+# if not err:
+#     mprint("objective map2 registered correctly")
+# else:
+#     mrpint("cannot register map2\n\t" + graspi.etext[err])
+#     mprint("exiting now")
     
+#     exit()
+
+map2, err = OBJ_REG("map2",  {MY_ADDRESS:NEIGHBORS}, True, False, 10, asa_handle)
+if err:
     exit()
+
 
 ####################
 #negotiating objective

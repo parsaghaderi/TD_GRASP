@@ -106,11 +106,6 @@ class flooder(threading.Thread):
         self.asa = asa
 
     def run(self):
-        # self.obj = tagged.objective
-        # self.asa = tagged.source
-        # self.tagged = tagged
-        # global tagged_map
-        # global map
         while True:
             mprint("flooding map")
             err = graspi.flood(self.asa, 59000, [graspi.tagged_objective(self.tagged.objective, None)])
