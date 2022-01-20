@@ -22,45 +22,32 @@ keep_going = True
 print("to the code and beyond!")
 
 err, asa_handle = ASA_REG("TD_Server")
-
-# map = graspi.objective("map")
-# map.neg = False
-# map.synch = True
-# map.loop_count = 10 #TODO change to 4
-# map.value = {MY_ADDRESS:NEIGHBORS}
-# err = graspi.register_obj(asa_handle, map)
-# if not err:
-#     mprint("Objective registered successfully")
-# else:
-#     mprint("Cannot register Objective:\n\t"+ graspi.etext[err])
-#     mprint("exiting now.")
-#     exit()
-
-
 map, err = OBJ_REG("map", {MY_ADDRESS:NEIGHBORS}, False, True, 10, asa_handle)
 if err:
     exit()
 
 #creating tagged objective
-tagged_map = graspi.tagged_objective(map, asa_handle)
+tagged_map = TAG_OBJ(map, asa_handle)
+
+
 # from sync_server import flooder
 #pass a tagged objective
 #TODO change here - separate
-class flooder(threading.Thread):
-    def __init__(self, tagged):
-        threading.Thread.__init__(self)
-        self.obj = tagged.objective
-        self.asa = tagged.source
-        self.tagged = tagged
+# class flooder(threading.Thread):
+#     def __init__(self, tagged):
+#         threading.Thread.__init__(self)
+#         self.obj = tagged.objective
+#         self.asa = tagged.source
+#         self.tagged = tagged
         
-    def run(self):
-        global tagged_map
-        global map
-        while keep_going:
-            mprint("flooding map")
-            err = graspi.flood(self.asa, 59000, [graspi.tagged_objective(tagged_map.objective, None)])
-            time.sleep(1)
-        mprint("exiting flooder")
+#     def run(self):
+#         global tagged_map
+#         global map
+#         while keep_going:
+#             mprint("flooding map")
+#             err = graspi.flood(self.asa, 59000, [graspi.tagged_objective(tagged_map.objective, None)])
+#             time.sleep(1)
+#         mprint("exiting flooder")
 
 
 flooder(tagged_map).start()

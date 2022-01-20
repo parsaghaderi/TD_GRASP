@@ -92,3 +92,28 @@ def OBJ_REG(name, value, neg, synch, loop_count, ASA):
         mprint("exiting now.")
     return obj, err
         
+
+ç
+def TAG_OBJ(obj, ASA):
+    return graspi.tagged_objective(obj, ASA)
+
+
+#########################
+#flooder thread
+#########################
+class flooder(threading.Thread):
+    def __init__(self, tagged):
+        threading.Thread.__init__(self)
+        
+        
+    def run(self, tagged_map):
+        # self.obj = tagged.objective
+        # self.asa = tagged.source
+        # self.tagged = tagged
+        # global tagged_map
+        # global map
+        while keep_going:
+            mprint("flooding map")
+            err = graspi.flood(self.asa, 59000, [graspi.tagged_objective(tagged_map.objective, None)])
+            time.sleep(1)
+        
