@@ -114,24 +114,6 @@ map2.synch = False
 map2.loop_count = 10
 map2.value = {MY_ADDRESS:NEIGHBORS}
 
-class observer(threading.Thread):
-    def __init__(self):
-        threading.Thread.__init__(self)
-        
-    def run(self):
-        global LAST_UPDATE
-        # global map
-        global map2
-        while True:
-            if os.stat('/etc/TD_map/neighbors.map').st_mtime != LAST_UPDATE:
-                mprint("map updated")
-                LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
-                # map_address, neighbors = readmap('/etc/TD_map/neighbors.map')
-                # map.value[map_address] = neighbors
-                map_address, neighbors = readmap('/etc/TD_map/neighbors.map')
-                map2.value[map_address] = neighbors
-
-observer().start()
 
 err = graspi.register_obj(asa_handle, map2)
 if not err:
@@ -330,4 +312,26 @@ class negotiator(threading.Thread):
                 else:
                     mprint("end negotiation error: "+graspi.etext[err])
 
-negotiator().start()
+
+
+class observer(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
+        
+    def run(self):
+        global LAST_UPDATE
+        # global map
+        global map2
+        negotiator().start()
+        while True:
+            if os.stat('/etc/TD_map/neighbors.map').st_mtime != LAST_UPDATE:
+                mprint("map updated")
+                negotiator().join()
+                LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
+                # map_address, neighbors = readmap('/etc/TD_map/neighbors.map')
+                # map.value[map_address] = neighbors
+                map_address, neighbors = readmap('/etc/TD_map/neighbors.map')
+                map2.value[map_address] = neighbors
+                negotiator().start()
+
+observer().start()
