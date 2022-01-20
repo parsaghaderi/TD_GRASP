@@ -15,42 +15,30 @@ except:
         exit()
 
 
-
-
-
 LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
 MY_ADDRESS, NEIGHBORS = readmap(MAP_PATH)
 keep_going = True
 
 print("to the code and beyond!")
 
-
-
-
-###############################
-#registering objective and ASA
-###############################
-# mprint("registering asa and objective")
-# err, asa_handle = graspi.register_asa("TD_Server")
-# if not err:
-#     mprint("ASA registered successfully")
-# else:
-#     mprint("Cannot register ASA:\n\t" + graspi.etext[err])
-#     mprint("exiting now.")
-#     exit()
 err, asa_handle = ASA_REG("TD_Server")
 
-map = graspi.objective("map")
-map.neg = False
-map.synch = True
-map.loop_count = 10 #TODO change to 4
-map.value = {MY_ADDRESS:NEIGHBORS}
-err = graspi.register_obj(asa_handle, map)
-if not err:
-    mprint("Objective registered successfully")
-else:
-    mprint("Cannot register Objective:\n\t"+ graspi.etext[err])
-    mprint("exiting now.")
+# map = graspi.objective("map")
+# map.neg = False
+# map.synch = True
+# map.loop_count = 10 #TODO change to 4
+# map.value = {MY_ADDRESS:NEIGHBORS}
+# err = graspi.register_obj(asa_handle, map)
+# if not err:
+#     mprint("Objective registered successfully")
+# else:
+#     mprint("Cannot register Objective:\n\t"+ graspi.etext[err])
+#     mprint("exiting now.")
+#     exit()
+
+
+map, err = OBJ_REG("map", {MY_ADDRESS:NEIGHBORS}, False, True, 10, asa_handle)
+if err:
     exit()
 
 #creating tagged objective
