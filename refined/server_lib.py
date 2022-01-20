@@ -13,13 +13,13 @@ except:
     print("can't import networkx; installing networkx")
     import os
     os.system('python3 -m pip install networkx')
-_old_API = False
+_old_API2 = False
 try:
     import graspi
 except:
     print("Cannot find the RFC API module graspi.py.")
     print("Will run with only the basic grasp.py module.")
-    _old_API = True
+    _old_API2 = True
     try:
         import grasp as graspi
     except:
