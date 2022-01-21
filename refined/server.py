@@ -66,7 +66,6 @@ class negotiator(threading.Thread):
         self.obj = obj
         self.nhandler = nhandler
         self.nobj = nobj
-
     def run(self):
         global map
         global map2
