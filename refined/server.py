@@ -5,9 +5,9 @@ MY_ADDRESS, NEIGHBORS = readmap(MAP_PATH)
 keep_going = True
 
 print("*to autonomic network and beyond!*")
-
+value = {MY_ADDRESS:NEIGHBORS}
 err, asa_handle = ASA_REG("TD_Server")
-map, err = OBJ_REG("map", {MY_ADDRESS:NEIGHBORS}, False, True, 10, asa_handle)
+map, err = OBJ_REG("map", value, False, True, 10, asa_handle)
 if err:
     exit()
 
@@ -16,7 +16,7 @@ tagged_map = TAG_OBJ(map, asa_handle)
 
 flooder(tagged_map, asa_handle).start()
 
-map2, err = OBJ_REG("map2",  {MY_ADDRESS:NEIGHBORS}, True, False, 10, asa_handle)
+map2, err = OBJ_REG("map2",  value, True, False, 10, asa_handle)
 if err:
     exit()
 
