@@ -120,7 +120,10 @@ class negotiator(threading.Thread):
                 print(reason)
                 print("#########################")
                 
+# observer_server(LAST_UPDATE, map).start()
 observer_server(LAST_UPDATE, map).start()
+
+
 while True:
     mprint("listening for negotiation requests")
     err, shandle, answer = graspi.listen_negotiate(asa_handle, map2)
