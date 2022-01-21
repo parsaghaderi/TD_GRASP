@@ -58,14 +58,16 @@ if err:
 #negotiating objective
 ####################
 class negotiator(threading.Thread):
-    #handler and obj for this asa
+    #handler and obj for this asa - neg should be on for objectives. that's why we can't use the same objective.
     #nhandler and nobj for negotiator asa and obj
-    def __init__(self,handler, obj, nhandler, nobj):
+    def __init__(self,handler, obj, nhandler, nobj, synch, tagged):
         threading.Thread.__init__(self, daemon = True)
         self.handler = handler
-        self.obj = obj
+        self.obj = obj #map2
         self.nhandler = nhandler
-        self.nobj = nobj
+        self.nobj = nobj#answer
+        self.sync_obj =synch#map
+        self.tagged = tagged#tagged_objective
     def run(self):
         global map
         global map2
@@ -109,8 +111,8 @@ class negotiator(threading.Thread):
                 end_err = graspi.end_negotiate(asa_handle, nhandler, False, reason=None)
                 mprint("negotiation succeeded")
                 mprint("final result\n {}".format(self.obj.value))
-                map.value = self.obj.value
-                tagged_map.objective.value = map.value
+                self.sync_obj.value = self.obj.value
+                self.tagged.objective.value = self.sync_obj.value
                 if not end_err:
                     mprint("negotiation session ended")
             else:
@@ -126,14 +128,14 @@ observer_server(LAST_UPDATE, map).start()
 
 while True:
     mprint("listening for negotiation requests")
-    err, shandle, answer = graspi.listen_negotiate(asa_handle, map)
+    err, shandle, answer = graspi.listen_negotiate(asa_handle, map2)
     
     if err:
         mprint("listen_negotiate error\n\t" + graspi.etext[err])
         time.sleep(5)
     else:
         mprint("listen negotiation succeed")
-        negotiator(asa_handle, map, shandle, answer).start()
+        negotiator(asa_handle, map2, shandle, answer).start()
         
     try:
         if not graspi.checkrun(asa_handle, "TD_Server"):
