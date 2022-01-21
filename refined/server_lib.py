@@ -27,6 +27,19 @@ except:
         time.sleep(10)
         exit()
 
+
+#########################
+#check grasp
+#########################
+try:
+    graspi.checkrun
+except:
+    #not running under ASA loader
+    graspi.tprint("========================")
+    graspi.tprint("ASA server is starting up.")
+    graspi.tprint("========================")
+
+
 MAP_PATH = '/etc/TD_map/neighbors.map'
 
 
@@ -48,17 +61,6 @@ def mprint(msg):
     print(msg)
     print("#######################\n")
 
-
-#########################
-#check grasp
-#########################
-try:
-    graspi.checkrun
-except:
-    #not running under ASA loader
-    graspi.tprint("========================")
-    graspi.tprint("ASA server is starting up.")
-    graspi.tprint("========================")
 
 
 #########################
@@ -133,10 +135,9 @@ class observer_server(threading.Thread):
 ####################
 #negotiating objective for server
 ####################
-#TODO save the value of neg and synch objetive in a sepaarate variable so that
+#TODO save the value of neg and synch objective in a separate variable so that
+
 class negotiator(threading.Thread):
-    #handler and obj for this asa - neg should be on for objectives. that's why we can't use the same objective.
-    #nhandler and nobj for negotiator asa and obj
     def __init__(self,handler, obj, nhandler, nobj, synch, tagged):
         threading.Thread.__init__(self, daemon = True)
         self.handler = handler
@@ -153,10 +154,10 @@ class negotiator(threading.Thread):
         nhandler = self.nhandler
         try:
             answer.value = cbor.loads(answer.value)
-            mprint("cbor value decoded")#√
-            mprint(answer.value)#√
-            mprint("current value of objective")#√
-            mprint(self.obj.value)#√
+            mprint("cbor value decoded")
+            mprint(answer.value)
+            mprint("current value of objective")
+            mprint(self.obj.value)
             _cbor = True
         except:
             _cbor = False
@@ -191,8 +192,4 @@ class negotiator(threading.Thread):
                 if not end_err:
                     mprint("negotiation session ended")
             else:
-                print("#########################")
-                print("negotiation failed\n\t")
-                print(graspi.etext[err])
-                print(reason)
-                print("#########################")
+                mprint("negotiation failed\n\t{}\n{}".format(graspi.etext[err], reason))
