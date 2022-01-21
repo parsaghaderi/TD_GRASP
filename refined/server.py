@@ -57,70 +57,70 @@ if err:
 ####################
 #negotiating objective
 ####################
-class negotiator(threading.Thread):
-    #handler and obj for this asa - neg should be on for objectives. that's why we can't use the same objective.
-    #nhandler and nobj for negotiator asa and obj
-    def __init__(self,handler, obj, nhandler, nobj, synch, tagged):
-        threading.Thread.__init__(self, daemon = True)
-        self.handler = handler
-        self.obj = obj #map2
-        self.nhandler = nhandler
-        self.nobj = nobj#answer
-        self.sync_obj =synch#map
-        self.tagged = tagged#tagged_objective
-    def run(self):
-        global map
-        global map2
-        global tagged_map
-        global _old_API
-        mprint("starting negotiation")
-        answer = self.nobj
-        nhandler = self.nhandler
-        try:
-            answer.value = cbor.loads(answer.value)
-            mprint("cbor value decoded")#√
-            mprint(answer.value)#√
-            mprint("current value of objective")#√
-            mprint(self.obj.value)#√
-            _cbor = True
-        except:
-            _cbor = False
-        mprint("objective name {} and value {}".format(self.obj.name, self.obj.value))#√
-        mprint("got request for objective {}".format(answer.name))#√
-        if answer.value == self.obj.value:
-            mprint("synchronized already")#√
-        else:
-            mprint("negotiating over {}".format(self.obj.name))#√
-            step = 1
-            mprint("in _{}_ step of negotiation".format(step))#√
-            mprint("answer value is {}".format(answer.value))#√
-            self.obj.value.update(answer.value) #√
-            mprint(self.obj.value)#√
+# class negotiator(threading.Thread):
+#     #handler and obj for this asa - neg should be on for objectives. that's why we can't use the same objective.
+#     #nhandler and nobj for negotiator asa and obj
+#     def __init__(self,handler, obj, nhandler, nobj, synch, tagged):
+#         threading.Thread.__init__(self, daemon = True)
+#         self.handler = handler
+#         self.obj = obj #map2
+#         self.nhandler = nhandler
+#         self.nobj = nobj#answer
+#         self.sync_obj =synch#map
+#         self.tagged = tagged#tagged_objective
+#     def run(self):
+#         global map
+#         global map2
+#         global tagged_map
+#         global _old_API
+#         mprint("starting negotiation")
+#         answer = self.nobj
+#         nhandler = self.nhandler
+#         try:
+#             answer.value = cbor.loads(answer.value)
+#             mprint("cbor value decoded")#√
+#             mprint(answer.value)#√
+#             mprint("current value of objective")#√
+#             mprint(self.obj.value)#√
+#             _cbor = True
+#         except:
+#             _cbor = False
+#         mprint("objective name {} and value {}".format(self.obj.name, self.obj.value))#√
+#         mprint("got request for objective {}".format(answer.name))#√
+#         if answer.value == self.obj.value:
+#             mprint("synchronized already")#√
+#         else:
+#             mprint("negotiating over {}".format(self.obj.name))#√
+#             step = 1
+#             mprint("in _{}_ step of negotiation".format(step))#√
+#             mprint("answer value is {}".format(answer.value))#√
+#             self.obj.value.update(answer.value) #√
+#             mprint(self.obj.value)#√
             
-            _r = graspi.negotiate_step(self.handler, nhandler, self.obj, 1000)
-            if _old_API:
-                err, tmp, answer = _r
-                reason = answer
-                mprint("old API true")
-            else:
-                err, temp, answer, reason = _r
-                mprint("old API false")#√
-            mprint("step {}\t gave: err {}, temp {}, answer {}, reason {}"
-                                .format(step, err, temp, answer, reason))
-            if (graspi.etext[err] == "OK"):
-                end_err = graspi.end_negotiate(asa_handle, nhandler, False, reason=None)
-                mprint("negotiation succeeded")
-                mprint("final result\n {}".format(self.obj.value))
-                self.sync_obj.value = self.obj.value
-                self.tagged.objective.value = self.sync_obj.value
-                if not end_err:
-                    mprint("negotiation session ended")
-            else:
-                print("#########################")
-                print("negotiation failed\n\t")
-                print(graspi.etext[err])
-                print(reason)
-                print("#########################")
+#             _r = graspi.negotiate_step(self.handler, nhandler, self.obj, 1000)
+#             if _old_API:
+#                 err, tmp, answer = _r
+#                 reason = answer
+#                 mprint("old API true")
+#             else:
+#                 err, temp, answer, reason = _r
+#                 mprint("old API false")#√
+#             mprint("step {}\t gave: err {}, temp {}, answer {}, reason {}"
+#                                 .format(step, err, temp, answer, reason))
+#             if (graspi.etext[err] == "OK"):
+#                 end_err = graspi.end_negotiate(asa_handle, nhandler, False, reason=None)
+#                 mprint("negotiation succeeded")
+#                 mprint("final result\n {}".format(self.obj.value))
+#                 self.sync_obj.value = self.obj.value
+#                 self.tagged.objective.value = self.sync_obj.value
+#                 if not end_err:
+#                     mprint("negotiation session ended")
+#             else:
+#                 print("#########################")
+#                 print("negotiation failed\n\t")
+#                 print(graspi.etext[err])
+#                 print(reason)
+#                 print("#########################")
                 
 # observer_server(LAST_UPDATE, map).start()
 observer_server(LAST_UPDATE, map).start()
