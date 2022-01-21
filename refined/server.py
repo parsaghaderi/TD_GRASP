@@ -121,24 +121,7 @@ class negotiator(threading.Thread):
                 print(reason)
                 print("#########################")
                 
-
-
-# class observer(threading.Thread):
-#     def __init__(self):
-#         threading.Thread.__init__(self)
-        
-#     def run(self):
-#         global LAST_UPDATE
-#         global map
-#         global map2
-#         while True:
-#             if os.stat('/etc/TD_map/neighbors.map').st_mtime != LAST_UPDATE:
-#                 mprint("map updated")
-#                 LAST_UPDATE = os.stat('/etc/TD_map/neighbors.map').st_mtime
-#                 map_address, neighbors = readmap('/etc/TD_map/neighbors.map')
-#                 map.value[map_address] = neighbors
-            
-observer(LAST_UPDATE, map).start()
+observer_server(LAST_UPDATE, map).start()
 while True:
     mprint("listening for negotiation requests")
     err, shandle, answer = graspi.listen_negotiate(asa_handle, map2)
@@ -148,7 +131,7 @@ while True:
         time.sleep(5)
     else:
         mprint("listen negotiation succeed")
-        negotiator(asa_handle, map2, shandle, answer).start()
+        negotiator(asa_handle, map, shandle, answer).start()
         
     try:
         if not graspi.checkrun(asa_handle, "TD_Server"):
