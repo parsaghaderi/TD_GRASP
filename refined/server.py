@@ -135,7 +135,7 @@ while True:
         time.sleep(5)
     else:
         mprint("listen negotiation succeed")
-        negotiator(asa_handle, map2, shandle, answer).start()
+        negotiator(asa_handle, map2, shandle, answer, map, tagged_map).start()
         
     try:
         if not graspi.checkrun(asa_handle, "TD_Server"):
