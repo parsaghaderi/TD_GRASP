@@ -126,14 +126,14 @@ observer_server(LAST_UPDATE, map).start()
 
 while True:
     mprint("listening for negotiation requests")
-    err, shandle, answer = graspi.listen_negotiate(asa_handle, map2)
+    err, shandle, answer = graspi.listen_negotiate(asa_handle, map)
     
     if err:
         mprint("listen_negotiate error\n\t" + graspi.etext[err])
         time.sleep(5)
     else:
         mprint("listen negotiation succeed")
-        negotiator(asa_handle, map2, shandle, answer).start()
+        negotiator(asa_handle, map, shandle, answer).start()
         
     try:
         if not graspi.checkrun(asa_handle, "TD_Server"):
