@@ -111,3 +111,20 @@ class flooder(threading.Thread):
             err = graspi.flood(self.asa, 59000, [graspi.tagged_objective(self.tagged.objective, None)])
             time.sleep(1)
         
+
+#########################
+#observer thread
+#########################
+class observer(threading.Thread):
+    def __init__(self, last_update, map):
+        threading.Thread.__init__(self)
+        self.map = map
+        self.last_update = last_update
+        
+    def run(self):
+        while True:
+            if os.stat(MAP_PATH).st_mtime != self.last_update:
+                mprint("map updated")
+                self.last_update = os.stat(MAP_PATH).st_mtime
+                map_address, neighbors = readmap(MAP_PATH)
+                self.map.value[map_address] = neighbors
